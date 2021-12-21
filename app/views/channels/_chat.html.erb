@@ -1,12 +1,12 @@
-<div class="flex flex-col justify-end min-h-full">
+<turbo-frame id="<%= dom_id(channel, :chat) if channel %>" class="flex flex-col justify-end min-h-full">
   <div id="messages"
        class="flex-col flex overflow-y-scroll
               mr-4 flex-grow <%= current_channel ? "justify-end" : "justify-center" %>">
     <%- if current_channel -%>
-      <p>There will be messages</p>
+      <%= render current_channel.messages.order(id: :desc).limit(20).reverse %>
     <%- else -%>
       <div class="text-center text-gray-500">No channel selected</div>
     <%- end -%>
   </div>
-  <%= render "form", channel: current_channel %>
-</div>
+  <%= render "messages/form", channel: current_channel if current_channel %>
+</turbo-frame>
