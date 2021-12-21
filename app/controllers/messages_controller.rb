@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
 
     current_channel.messages.create(message_params.merge(author: current_user))
 
-    render partial: "channels/chat", locals: {channel: current_channel}
+    render partial: "messages/form", locals: {channel: current_channel}
   end
 
   private
