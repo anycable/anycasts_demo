@@ -91,6 +91,8 @@ GEM
     minitest (5.15.0)
     msgpack (1.4.2)
     nio4r (2.5.8)
+    nokogiri (1.12.5-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     propshaft (0.4.4)
@@ -136,6 +138,8 @@ GEM
     sqlite3 (1.4.2)
     stimulus-rails (1.0.2)
       railties (>= 6.0.0)
+    tailwindcss-rails (2.0.2-x86_64-darwin)
+      railties (>= 6.0.0)
     tailwindcss-rails (2.0.2-x86_64-linux)
       railties (>= 6.0.0)
     thor (1.1.0)
@@ -155,6 +159,7 @@ GEM
     zeitwerk (2.5.1)
 
 PLATFORMS
+  x86_64-darwin-18
   x86_64-linux
 
 DEPENDENCIES
