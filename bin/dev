@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if ! command -v overmind &> /dev/null
+then
+  echo "Please, install overmind. See https://github.com/DarthSim/overmind"
+fi
+
+overmind start -f Procfile.dev

@@ -1,0 +1,5 @@
+<div id="<%= dom_id channel %>">
+  <p class="my-2 <%= "font-bold" if channel == current_channel %>">
+    <%= link_to "##{channel.name}", channel %>
+  </p>
+</div>
