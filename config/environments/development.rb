@@ -1,11 +1,14 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # Settings specified here will take precedence over those in config/application.rb.
+
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
     config.action_cable.url = ActionCable.server.config.url = ENV.fetch("CABLE_URL", "ws://localhost:8080/cable") if AnyCable::Rails.enabled?
   end
-  # Settings specified here will take precedence over those in config/application.rb.
+
+  config.turbo.signed_stream_verifier_key = "s3cЯeT"
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
