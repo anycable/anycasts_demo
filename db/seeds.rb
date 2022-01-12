@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Channel.insert_all([{name: "general"}, {name: "random"}])
+Channel.insert_all([{name: "general", secret: "foo"}, {name: "random", secret: "bar"}])
 
 Channel.pluck(:id) => [id_1, id_2]
 
