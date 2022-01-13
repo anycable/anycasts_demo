@@ -33,5 +33,7 @@ module AnycastsDemo
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # config.console1984.protected_environments = %w[production development]
   end
 end

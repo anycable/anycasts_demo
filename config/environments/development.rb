@@ -1,4 +1,39 @@
 require "active_support/core_ext/integer/time"
+require 'irb'
+
+class RemoteInputMethod < IRB::InputMethod
+  # Creates a new input method object
+  def initialize(queue)
+    super("(remote)")
+    @queue = queue
+    @external_encoding = STDIN.external_encoding
+  end
+
+  def handle(msg)
+    @queue << msg
+  end
+
+  def eof?
+    false
+  end
+
+  def gets
+    print @prompt
+    @queue.pop
+  end
+
+  def encoding
+    @external_encoding
+  end
+
+  # For debug message
+  def inspect
+    'RemoteInputMethod'
+  end
+
+  def close
+  end
+end
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -67,4 +102,38 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  console do
+    require 'drb/drb'
+
+    remote_uri = "druby://localhost:8787"
+    brave_console_path = Rails.root.join("bin/brave-new-console")
+
+    pid = fork do
+      mailbox = Queue.new
+
+      remote_input = RemoteInputMethod.new(mailbox)
+      DRb.start_service(remote_uri, remote_input)
+      at_exit { DRb.thread.join }
+
+      puts "Fork #{Process.pid}"
+
+      IRB.conf[:SCRIPT] = remote_input
+      IRB.start(Rails.root.to_s)
+    end
+
+    # Process.detach(pid)
+
+    puts "Giving control to brave-new-console from pid #{Process.pid}"
+
+    sleep 2
+
+    remote_console = DRbObject.new_with_uri(remote_uri)
+
+    # exec brave_console_path.to_s
+    loop do
+      input = $stdin.gets
+      remote_console.handle(input)
+    end
+  end
 end

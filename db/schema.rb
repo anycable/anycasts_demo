@@ -10,13 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_12_150052) do
+ActiveRecord::Schema.define(version: 2022_01_12_150530) do
 
   create_table "channels", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "secret"
+  end
+
+  create_table "console1984_commands", force: :cascade do |t|
+    t.text "statements"
+    t.integer "sensitive_access_id"
+    t.integer "session_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sensitive_access_id"], name: "index_console1984_commands_on_sensitive_access_id"
+    t.index ["session_id", "created_at", "sensitive_access_id"], name: "on_session_and_sensitive_chronologically"
+    t.index ["session_id"], name: "index_console1984_commands_on_session_id"
+  end
+
+  create_table "console1984_sensitive_accesses", force: :cascade do |t|
+    t.text "justification"
+    t.integer "session_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["session_id"], name: "index_console1984_sensitive_accesses_on_session_id"
+  end
+
+  create_table "console1984_sessions", force: :cascade do |t|
+    t.text "reason"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_at"], name: "index_console1984_sessions_on_created_at"
+    t.index ["user_id", "created_at"], name: "index_console1984_sessions_on_user_id_and_created_at"
+    t.index ["user_id"], name: "index_console1984_sessions_on_user_id"
+  end
+
+  create_table "console1984_users", force: :cascade do |t|
+    t.string "username", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["username"], name: "index_console1984_users_on_username"
   end
 
   create_table "messages", force: :cascade do |t|
