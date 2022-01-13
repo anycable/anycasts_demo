@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+require "childprocess"
+
+$stdout.sync = true
+
+process = ChildProcess.build(*"bundle exec rails c".split(/\s+/))
+process.io.inherit!
+process.duplex = true
+process.start
+
+Thread.new do
+  process.wait
+  exit(process.exit_code)
+end
+
+at_exit do
+  process.stop
+  process.wait
+end
+
+require "readline"
+
+prompt = ""
+use_history = true
+
+begin
+  loop do
+    text = Readline.readline(prompt, use_history)
+    process.io.stdin.write(text + "\n")
+  end
+rescue Interrupt
+  exit(0)
+end

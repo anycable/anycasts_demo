@@ -80,6 +80,7 @@ GEM
     bootsnap (1.9.3)
       msgpack (~> 1.0)
     builder (3.2.4)
+    childprocess (4.1.0)
     colorize (0.8.1)
     concurrent-ruby (1.1.9)
     console1984 (0.1.22)
@@ -200,6 +201,7 @@ DEPENDENCIES
   anycable-rails (~> 1.2.0)
   anycable-rails-jwt (~> 0.1.0)
   bootsnap
+  childprocess
   console1984
   debug
   importmap-rails
