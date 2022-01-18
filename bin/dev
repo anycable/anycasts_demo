@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if ! command -v overmind &> /dev/null
+if ! command -v hivemind &> /dev/null
 then
-  echo "Please, install overmind. See https://github.com/DarthSim/overmind"
+  echo "Please, install hivemind. See https://github.com/DarthSim/hivemind"
 fi
 
-overmind start -f Procfile.dev
+hivemind Procfile.dev
