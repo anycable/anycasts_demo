@@ -1,8 +1,10 @@
 ARG RUBY_VERSION
+ARG DISTRO_NAME
 
-FROM ruby:$RUBY_VERSION-slim-bullseye
+FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME
 
 ARG PG_MAJOR
+ARG DISTRO_NAME
 ARG NODE_MAJOR
 ARG BUNDLER_VERSION
 ARG YARN_VERSION
@@ -21,7 +23,7 @@ RUN apt-get update -qq \
 
 # Add PostgreSQL to sources list
 RUN curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - \
-  && echo 'deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main' $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
+  && echo deb http://apt.postgresql.org/pub/repos/apt/ $DISTRO_NAME-pgdg main $PG_MAJOR > /etc/apt/sources.list.d/pgdg.list
 
 # Add NodeJS to sources list
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
