@@ -228,7 +228,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.0)
   stimulus-rails
-  tailwindcss-rails (~> 2.0.5)
+  tailwindcss-rails
   turbo-rails
   tzinfo-data
   web-console
