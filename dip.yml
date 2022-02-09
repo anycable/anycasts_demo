@@ -5,14 +5,14 @@ environment:
 
 compose:
   files:
-    - docker-compose.yml
+    - .dockerdev/docker-compose.yml
   project_name: anycasts_demo
 
 interaction:
   shell:
     description: Open the Bash shell in app's container
     service: rails
-    command: bash
+    command: sh
     compose:
       run_options: [no-deps]
 
@@ -49,7 +49,7 @@ interaction:
     command: rm -rf $(pwd)/tmp/cache/*
 
 provision:
-  - dip compose down --volumes
   - dip clean_cache
-  - dip compose up -d postgres
-  - dip bash -c ./bin/setup
+  - dip compose down --volumes
+  - dip compose up -d postgres redis
+  - dip shell -c bin/setup
