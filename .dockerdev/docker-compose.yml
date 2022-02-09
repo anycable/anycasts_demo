@@ -2,6 +2,8 @@ version: '3.8'
 
 x-app: &app
   build:
+    context: .
+    dockerfile: Dockerfile
     args:
       RUBY_VERSION: '3.1.0'
       PG_MAJOR: '14'
@@ -77,7 +79,6 @@ services:
     volumes:
       - .psqlrc:/root/.psqlrc:ro
       - postgres:/var/lib/postgresql/data
-      - ./log:/root/log:cached
       - history:/user/local/hist
     environment:
       PSQL_HISTFILE: /user/local/hist/.psql_history
