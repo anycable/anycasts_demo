@@ -3,3 +3,6 @@ pre-commit:
   commands:
     pronto:
       run: pronto run --staged --exit-code
+    standard:
+      run: bundle exec standardrb {staged_files}
+      glob: "*.rb"
