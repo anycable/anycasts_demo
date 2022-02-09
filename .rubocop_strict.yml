@@ -1,6 +1,3 @@
-inherit_from:
-  - .rubocop_todo.yml
-
 Lint/Debugger: # don't leave binding.pry
   Enabled: true
   Exclude: []

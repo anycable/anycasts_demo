@@ -53,8 +53,10 @@ gem "bootsnap", require: false
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem "rubocop", require: false
   gem "standard", "~> 1.0", require: false
+  # Standard 1.7.0 requires exactly this version
+  # https://github.com/testdouble/standard/blob/main/Gemfile.lock
+  gem "rubocop", "= 1.25.0", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
 end
@@ -63,6 +65,8 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
   gem "lefthook", require: false
+  gem "pronto"
+  gem "pronto-rubocop", require: false
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
