@@ -1,7 +1,5 @@
 pre-commit:
   parallel: true
   commands:
-    rubocop:
-      files: git diff --name-only --staged
-      glob: "*.rb"
-      run: bundle exec rubocop --force-exclusion {files}
+    pronto:
+      run: pronto run --staged --exit-code
