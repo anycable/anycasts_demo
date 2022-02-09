@@ -1,4 +1,4 @@
 # Change log
 
 ## master
-- Added docker, docker-compose, dip. ([@fargelus]).
+- Added docker, docker-compose, dip. ([@fargelus][]).

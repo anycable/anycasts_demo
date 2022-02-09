@@ -1,5 +1,5 @@
 ARG RUBY_VERSION
-ARG DISTRO_NAME
+ARG DISTRO_NAME=bullseye
 
 FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME
 
@@ -30,7 +30,7 @@ RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
 
 # Application dependencies
 # External Aptfile for that
-COPY .dockerdev/Aptfile /tmp/Aptfile
+COPY Aptfile /tmp/Aptfile
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
   DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     $(grep -Ev '^\s*#' /tmp/Aptfile | xargs) \
@@ -55,8 +55,4 @@ RUN gem update --system && \
 
 # Create a directory for the app code
 RUN mkdir -p /app
-# Copy project
-COPY . /app
 WORKDIR app
-
-RUN bundle install
