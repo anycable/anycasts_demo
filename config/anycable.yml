@@ -26,7 +26,6 @@ default: &default
   #   $ anycable-go --redis-channel="__anycable__"
   redis_channel: "__anycable__"
   jwt_id_key: "merry-x-max"
-  broadcast_url: ENV.fetch("ANYCABLE_HTTP_BROADCAST_URL", "http://localhost:8090/_broadcast")
 
 development:
   <<: *default

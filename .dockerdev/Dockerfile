@@ -36,12 +36,12 @@ RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrad
     $(grep -Ev '^\s*#' /tmp/Aptfile | xargs) \
     libpq-dev \
     postgresql-client-$PG_MAJOR \
-    nodejs
-
-RUN npm install -g yarn@$YARN_VERSION \
-    && apt-get clean && \
+    nodejs && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     truncate -s 0 /var/log/*log
+
+RUN npm install -g yarn@$YARN_VERSION
 
 # Configure bundler
 ENV LANG=C.UTF-8 \
