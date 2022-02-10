@@ -10,24 +10,10 @@ For MacOS just use [official app](https://docs.docker.com/engine/installation/ma
 
 - [`dip`](https://github.com/bibendi/dip) installed. Since our development `docker-compose.yml` is not located in the root (there is already a production one), using Docker without Dip wouldn't be a pleasure.
 
-You can install `dip` either as Ruby gem:
+You can install `dip` as Ruby gem:
 
 ```sh
 gem install dip
-```
-
-Or using Homebrew:
-
-```sh
-brew tap bibendi/dip
-brew install dip
-```
-
-Or by downloading a binary (see [releases](https://github.com/bibendi/dip/releases)):
-
-```sh
-curl -L https://github.com/bibendi/dip/releases/download/v3.8.3/dip-`uname -s`-`uname -m` > /usr/local/bin/dip
-chmod +x /usr/local/bin/dip
 ```
 
 ## Provisioning
@@ -36,6 +22,12 @@ When using Dip it could be done with a single command:
 
 ```sh
 dip provision
+```
+
+## Running
+
+```sh
+dip rails s
 ```
 
 ## Developing with Dip

@@ -12,7 +12,7 @@ interaction:
   shell:
     description: Open the Bash shell in app's container
     service: rails
-    command: sh
+    command: /bin/bash
     compose:
       run_options: [no-deps]
 
