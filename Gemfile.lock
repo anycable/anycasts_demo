@@ -157,7 +157,6 @@ GEM
     irb (1.4.1)
       reline (>= 0.3.0)
     jwt (2.3.0)
-    lefthook (0.7.7)
     loofah (2.14.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -269,7 +268,7 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
-    rubocop (1.25.0)
+    rubocop (1.25.1)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -297,8 +296,8 @@ GEM
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
     sqlite3 (1.4.2)
-    standard (1.7.0)
-      rubocop (= 1.25.0)
+    standard (1.7.1)
+      rubocop (= 1.25.1)
       rubocop-performance (= 1.13.2)
     stimulus-rails (1.0.2)
       railties (>= 6.0.0)
@@ -337,14 +336,13 @@ DEPENDENCIES
   faker!
   graphql (~> 2.0)
   importmap-rails
-  lefthook
   pronto
   pronto-rubocop
   propshaft
   puma (~> 5.0)
   rails (~> 7.0.0)
   rspec-rails
-  rubocop (= 1.25.0)
+  rubocop
   rubocop-rails
   rubocop-rspec
   sqlite3 (~> 1.4)

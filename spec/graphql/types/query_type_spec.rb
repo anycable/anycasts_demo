@@ -94,7 +94,7 @@ RSpec.describe Types::QueryType do
           })
         end
 
-        let(:queried_channels_names) { channels.last(2).pluck(:name) }
+        let(:queried_channels_names) { channels.last(num_of_channels).pluck(:name) }
 
         it "returns only specified channels" do
           expect(result_channels_names.size).to eql num_of_channels

@@ -7,8 +7,8 @@ inherit_mode:
 
 require:
   - rubocop-performance
-  - standard/cop/block_single_line_braces
-  - ./lib/rubocop/cops/lint_env
+  - standard
+  - ./lib/rubocop/cops
 
 inherit_gem:
   standard: config/base.yml
@@ -18,16 +18,3 @@ inherit_from:
   - .rubocop_rspec.yml
   - .rubocop_strict.yml
 
-Lint/Env:
-  Enabled: true
-  Include:
-    - "**/*.rb"
-  Exclude:
-    - "**/config/environments/**/*"
-    - "**/config/application.rb"
-    - "**/config/environment.rb"
-    - "**/config/puma.rb"
-    - "**/config/boot.rb"
-    - "**/spec/*_helper.rb"
-    - "**/spec/**/support/**/*"
-    - "lib/generators/**/*"

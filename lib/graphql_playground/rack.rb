@@ -2,9 +2,6 @@ require "erb"
 require "json"
 
 module GraphqlPlayground
-  # Rack app to serve GraphiQL
-  # Based on https://github.com/yuya-takeyama/rack-graphiql
-
   class Rack
     include ERB::Util
 
