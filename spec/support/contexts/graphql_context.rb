@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.shared_context "graphql_context" do
+  let(:user) { create(:user) }
   let(:query) { "" }
   let(:variables) { {} }
-  let(:context) { {current_user: "user-0"} }
+  let(:context) { {current_user: user} }
   let(:field) { result.fetch("data").keys.first }
 
   subject(:result) do

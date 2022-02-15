@@ -17,7 +17,7 @@ module Mutations
       def resolve(channel_id:, input:)
         message = Message.new(input.to_h)
         message.channel_id = channel_id
-        message.author = current_user
+        message.user = current_user
 
         if message.save
           {message:}

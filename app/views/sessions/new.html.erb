@@ -1,0 +1,14 @@
+<div>
+  <h1 class="mb-2">Please, name yourself!</h2>
+  <%= form_tag login_path, method: :post do %>
+    <p class="py-2">
+      <%= text_field_tag :username, params[:username], placeholder: "Username", class: "flex-grow mr-2 px-2" %>
+    </p>
+    <p class="py-2">
+      <%= password_field_tag :password, params[:password], placeholder: "Password", class: "flex-grow mr-2 px-2" %>
+    </p>
+    <p class="py-2">
+      <%= button_tag "Log in", type: "submit", class: "rounded py-2 px-5 bg-red-600 text-white inline-block cursor-pointer hover:bg-red-500 transition-colors disabled:bg-red-100 disabled:cursor-no-allowed" %>
+    </p>
+  <% end %>
+</div>

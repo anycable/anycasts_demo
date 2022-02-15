@@ -3,10 +3,14 @@
 require "system_helper"
 
 describe "/channels/{id}" do
+  let(:user) { create(:user) }
+  let(:dhh) { create(:user, username: "DHH") }
   let(:channel) { create(:channel) }
+  let!(:message) { create(:message, channel: channel, content: "Progress is good", user: dhh) }
+
+  before { login(user) }
 
   before do
-    create(:message, channel: channel, content: "Progress is good", author: "DHH")
     visit channel_path(id: channel.id)
   end
 

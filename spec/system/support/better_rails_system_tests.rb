@@ -4,7 +4,7 @@
 module BetterRailsSystemTests
   # Use relative path in screenshot message to make it clickable in VS Code when running in Docker
   def image_path
-    absolute_image_path.relative_path_from(Rails.root).to_s
+    Pathname.new(absolute_image_path).relative_path_from(Rails.root).to_s
   end
 
   # Make failure screenshots compatible with multi-session setup
