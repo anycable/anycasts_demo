@@ -9,12 +9,16 @@ compose:
   project_name: anycasts_demo
 
 interaction:
-  shell:
-    description: Open the Bash shell in app's container
-    service: rails
+  sh:
+    description: Open a Bash shell within a Rails container (with dependencies up)
+    service: runner
     command: /bin/bash
-    compose:
-      run_options: [no-deps]
+
+  bash:
+    description: Run an arbitrary script within a container (or open a shell without deps)
+    service: runner
+    command: /bin/bash
+    compose_run_options: [ no-deps ]
 
   bundle:
     description: Run Bundler commands
@@ -52,4 +56,4 @@ provision:
   - dip clean_cache
   - dip compose down --volumes
   - dip compose up -d postgres redis
-  - dip shell -c bin/setup
+  - dip bash -c bin/setup

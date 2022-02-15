@@ -48,7 +48,7 @@ dip rails db:migrate
 dip VERSION=20100905201547 rails db:migrate:down
 
 # simply launch bash within app directory (with dependencies up)
-dip shell
+dip sh
 
 # Additional commands
 
