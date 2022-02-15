@@ -22,6 +22,7 @@ x-backend: &backend
   <<: *app
   stdin_open: true
   tty: true
+  command: /bin/bash
   volumes:
     - ..:/app:cached
     - rails_cache:/app/tmp/cache
@@ -42,6 +43,8 @@ x-backend: &backend
     PSQL_HISTFILE: /usr/local/hist/.psql_history
     EDITOR: vi
     ACTION_CABLE_ADAPTER: ${ACTION_CABLE_ADAPTER:-anycable}
+    ANYCABLE_RPC_HOST: 0.0.0.0:50051
+    ANYCABLE_BROADCAST_ADAPTER: redis
   depends_on: &backend_depends_on
     postgres:
       condition: service_healthy
@@ -49,31 +52,22 @@ x-backend: &backend
       condition: service_healthy
 
 services:
-  ws:
-    image: anycable/anycable-go:1.2
+  rails:
+    <<: *backend
+    command: rails
+
+  web:
+    <<: *backend
+    command: rails server -b 0.0.0.0
     ports:
-      - '8080:8080'
-    environment:
-      ANYCABLE_HOST: "0.0.0.0"
-      ANYCABLE_PORT: 8080
-      ANYCABLE_BROADCAST_ADAPTER: http
-      ANYCABLE_TURBO_RAILS_KEY: s3cЯeT
-      ANYCABLE_JWT_ID_KEY: merry-x-max
-      ANYCABLE_REDIS_URL: redis://redis:6379/0
-      ANYCABLE_RPC_HOST: anycable:50051
-      ANYCABLE_DEBUG: 1
+      - '3000:3000'
     depends_on:
-      redis:
-        condition: service_healthy
+      - anycable
+      - css
 
   anycable:
     <<: *backend
     command: bundle exec anycable
-    environment:
-      <<: *backend_environment
-      ANYCABLE_REDIS_URL: redis://redis:6379/0
-      ANYCABLE_RPC_HOST: 0.0.0.0:50051
-      ANYCABLE_DEBUG: 1
     ports:
       - '50051'
     depends_on:
@@ -85,24 +79,21 @@ services:
     <<: *backend
     command: rails tailwindcss:watch
 
-  rails:
-    <<: *backend
-    command: rails server -b 0.0.0.0
+  ws:
+    image: anycable/anycable-go:1.2
     ports:
-      - '3000:3000'
+      - '8080:8080'
     environment:
-      <<: *backend_environment
-      ANYCABLE_HTTP_BROADCAST_URL: "http://ws:8090/_broadcast"
+      ANYCABLE_HOST: "0.0.0.0"
+      ANYCABLE_PORT: 8080
+      ANYCABLE_TURBO_RAILS_KEY: s3cЯeT
+      ANYCABLE_JWT_ID_KEY: merry-x-max
+      ANYCABLE_REDIS_URL: redis://redis:6379/0
+      ANYCABLE_RPC_HOST: anycable:50051
+      ANYCABLE_DEBUG: ${ANYCABLE_DEBUG:-1}
     depends_on:
-      - anycable
-      - css
-
-  runner:
-    <<: *backend
-    command: /bin/bash
-    ports:
-      - '3000:3000'
-      - '3002:3002'
+      redis:
+        condition: service_healthy
 
   postgres:
     image: postgres:14

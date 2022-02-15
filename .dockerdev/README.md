@@ -38,8 +38,11 @@ dip rails s
 # run rails console
 dip rails c
 
-# run rails server with debugging capabilities (i.e., `binding.pry` would work)
+# run rails server with debugging capabilities (i.e., `debugger` would work)
 dip rails s
+
+# or run the while web app (with all the dependencies)
+dip up web
 
 # run migrations
 dip rails db:migrate
@@ -48,7 +51,10 @@ dip rails db:migrate
 dip VERSION=20100905201547 rails db:migrate:down
 
 # simply launch bash within app directory (with dependencies up)
-dip sh
+dip runner
+
+# execute an arbitrary command via Bash
+dip bash ls -al tmp/cache
 
 # Additional commands
 
@@ -75,6 +81,6 @@ by integrating `dip` into your session:
 $ dip console | source /dev/stdin
 # no `dip` prefix is required anymore!
 $ rails c
-Loading development environment (Rails 6.0.0)
+Loading development environment (Rails 7.0.1)
 pry>
 ```
