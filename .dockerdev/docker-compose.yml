@@ -93,7 +93,6 @@ services:
     environment:
       <<: *backend_environment
       ANYCABLE_HTTP_BROADCAST_URL: "http://ws:8090/_broadcast"
-      BUNDLER_VERSION: 2.3.6
     depends_on:
       - anycable
       - css
