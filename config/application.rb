@@ -31,7 +31,15 @@ module AnycastsDemo
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    # Don't generate system test files.
-    config.generators.system_tests = nil
+    # Disable unneeded generators
+    config.generators do |g|
+      g.assets false
+      g.helper false
+      g.orm :active_record
+      g.stylesheets false
+      g.javascripts false
+      g.test_framework nil
+      g.system_tests false
+    end
   end
 end
