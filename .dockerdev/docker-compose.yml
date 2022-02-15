@@ -62,8 +62,10 @@ services:
     ports:
       - '3000:3000'
     depends_on:
-      - anycable
-      - css
+      ws:
+        condition: service_started
+      css:
+        condition: service_started
 
   anycable:
     <<: *backend
@@ -90,6 +92,7 @@ services:
       ANYCABLE_JWT_ID_KEY: merry-x-max
       ANYCABLE_REDIS_URL: redis://redis:6379/0
       ANYCABLE_RPC_HOST: anycable:50051
+      ANYCABLE_DISABLE_DISCONNECT: 1
       ANYCABLE_DEBUG: ${ANYCABLE_DEBUG:-1}
     depends_on:
       redis:
