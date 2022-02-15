@@ -10,7 +10,7 @@ module Types
     end
 
     def channels
-      Channel.preload(:messages).order(id: :desc)
+      Channel.all
     end
 
     def channel(id:)

@@ -1,20 +1,24 @@
 module Mutations
   class SendMessageMutation < Mutations::BaseMutation
-    argument :channel_id, ID, required: true
-    argument :input, Types::NewMessageInput, required: true
+    description "Creates new message"
 
+    argument :channel_id, ID, required: true, description: "ID of associated channel"
+    argument :input, Messages::NewMessageInput, required: true, description: "Message attributes"
+
+    field :errors, Types::ValidationErrorsType,
+      null: true,
+      description: "Validation errors that occurs while saving"
     field :message, Types::MessageType, null: true
-    field :errors, [String], null: true
 
-    def resolve(**args)
-      message = Message.new(args[:input].to_h)
-      message[:channel_id] = args[:channel_id]
-      message[:author] = context[:current_user]
+    def resolve(channel_id:, input:)
+      message = Message.new(input.to_h)
+      message.channel_id = channel_id
+      message.author = current_user
 
       if message.save
-        { message: message }
+        {message: message}
       else
-        { errors: message.errors.full_messages }
+        {errors: message.errors}
       end
     end
   end

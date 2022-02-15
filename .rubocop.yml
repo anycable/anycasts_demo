@@ -7,6 +7,7 @@ inherit_mode:
 
 require:
   - rubocop-performance
+  - rubocop-graphql
   - standard
   - ./lib/rubocop/cops
 
@@ -16,5 +17,5 @@ inherit_gem:
 inherit_from:
   - .rubocop_rails.yml
   - .rubocop_rspec.yml
-  - .rubocop_strict.yml
+  - .rubocop_lint.yml
 

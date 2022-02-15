@@ -1,0 +1,13 @@
+Lint/Env:
+  Enabled: true
+  Include:
+    - "**/*.rb"
+  Exclude:
+    - "**/config/environments/**/*"
+    - "**/config/application.rb"
+    - "**/config/environment.rb"
+    - "**/config/puma.rb"
+    - "**/config/boot.rb"
+    - "**/spec/*_helper.rb"
+    - "**/spec/**/support/**/*"
+    - "lib/generators/**/*"

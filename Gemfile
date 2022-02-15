@@ -60,9 +60,11 @@ group :development, :test do
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-graphql", require: false
   gem "rspec-rails"
   gem "factory_bot_rails"
-  gem "faker", :git => "https://github.com/faker-ruby/faker.git", :branch => "master"
+  gem "faker"
+  gem "byebug"
 end
 
 group :development do

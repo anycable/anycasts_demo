@@ -1,7 +1,7 @@
 require "erb"
 require "json"
 
-module GraphqlPlayground
+module GraphQLPlayground
   class Rack
     include ERB::Util
 

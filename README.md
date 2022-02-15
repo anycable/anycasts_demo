@@ -12,5 +12,5 @@ The flow is the following:
 This project is configured with [Lefthook](https://github.com/evilmartians/lefthook) git hook manager.<br>
 Follow this guide for setup it locally <https://github.com/evilmartians/lefthook/blob/master/docs/other.md>.
 
-## GraphQL Api
-Api available on `api/graphql` endpoint.
+## GraphQL API
+API available on `api/graphql` endpoint.

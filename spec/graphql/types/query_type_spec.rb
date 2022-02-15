@@ -16,13 +16,15 @@ RSpec.describe Types::QueryType do
   describe "channels" do
     context "query matches schema" do
       let(:query) do
-        %(query getChannels {
-          channels {
-            nodes {
-              name
+        <<~GRAPHQL
+          query getChannels {
+            channels {
+              nodes {
+                name
+              }
             }
           }
-        })
+        GRAPHQL
       end
 
       let(:result_channels) { result.dig("data", "channels") }
@@ -41,18 +43,20 @@ RSpec.describe Types::QueryType do
 
       context "with messages field present in query" do
         let(:query) do
-          %(query getChannels {
-            channels {
-              nodes {
-                name
-                messages {
-                  nodes {
-                    content
+          <<~GRAPHQL
+            query getChannels {
+              channels {
+                nodes {
+                  name
+                  messages {
+                    nodes {
+                      content
+                    }
                   }
                 }
               }
             }
-          })
+          GRAPHQL
         end
 
         let(:expected_messages_content) do
@@ -85,16 +89,18 @@ RSpec.describe Types::QueryType do
         let(:num_of_channels) { 2 }
         let(:params) { "first: #{num_of_channels}" }
         let(:query) do
-          %(query getChannels {
-            channels(#{params}) {
-              nodes {
-                name
+          <<~GRAPHQL
+            query getChannels {
+              channels(#{params}) {
+                nodes {
+                  name
+                }
               }
             }
-          })
+          GRAPHQL
         end
 
-        let(:queried_channels_names) { channels.last(num_of_channels).pluck(:name) }
+        let(:queried_channels_names) { channels.first(num_of_channels).pluck(:name) }
 
         it "returns only specified channels" do
           expect(result_channels_names.size).to eql num_of_channels
@@ -106,11 +112,13 @@ RSpec.describe Types::QueryType do
     context "invalid query" do
       context "mismatched connection type" do
         let(:query) do
-          %(query getChannels {
-            channels {
-              name
+          <<~GRAPHQL
+            query getChannels {
+              channels {
+                name
+              }
             }
-          })
+          GRAPHQL
         end
 
         it "returns an error message" do
@@ -120,14 +128,16 @@ RSpec.describe Types::QueryType do
 
       context "mismatched channel type" do
         let(:query) do
-          %(query getChannels {
-            channels {
-              nodes {
-                id
-                name
+          <<~GRAPHQL
+            query getChannels {
+              channels {
+                nodes {
+                  id
+                  name
+                }
               }
             }
-          })
+          GRAPHQL
         end
 
         it "returns an error message" do
@@ -144,7 +154,8 @@ RSpec.describe Types::QueryType do
       let(:channel_id) { channels.first.id }
       let(:message_count) { 3 }
       let(:query) do
-        %(query getChannel {
+        <<~GRAPHQL
+          query getChannel {
             channel(id: #{channel_id}) {
               name
               messages(last: #{message_count}) {
@@ -154,7 +165,7 @@ RSpec.describe Types::QueryType do
               }
             }
           }
-        )
+        GRAPHQL
       end
 
       let(:expected_channel_name) { Channel.find(channel_id).name }
@@ -177,7 +188,8 @@ RSpec.describe Types::QueryType do
       context "invalid id" do
         let(:channel_id) { "test" }
         let(:query) do
-          %(query getChannel {
+          <<~GRAPHQL
+            query getChannel {
               channel(id: #{channel_id}) {
                 name
                 messages {
@@ -187,7 +199,7 @@ RSpec.describe Types::QueryType do
                 }
               }
             }
-          )
+          GRAPHQL
         end
 
         it "returns an error msg" do
@@ -205,15 +217,16 @@ RSpec.describe Types::QueryType do
 
       context "invalid schema format" do
         let(:query) do
-          %(query getChannel {
-            channel(id: 1) {
-              name
-              messages {
-                content
+          <<~GRAPHQL
+            query getChannel {
+              channel(id: 1) {
+                name
+                messages {
+                  content
+                }
               }
             }
-          }
-        )
+          GRAPHQL
         end
 
         it "returns an error" do

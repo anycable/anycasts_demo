@@ -17,15 +17,19 @@ describe Mutations::SendMessageMutation do
   end
 
   let(:mutation) do
-    %Q(
+    <<~GRAPHQL
       mutation sendMessage($channelId: ID!, $input: NewMessageInput!) {
         sendMessage(channelId: $channelId, input: $input) {
           message {
             content
           }
+          errors {
+            messages
+            details
+          }
         }
       }
-    )
+    GRAPHQL
   end
 
   context "valid query" do
@@ -38,6 +42,10 @@ describe Mutations::SendMessageMutation do
 
     it "has message field in response" do
       expect(response.key?("message")).to be
+    end
+
+    it "has null errors field" do
+      expect(response["errors"]).not_to be
     end
 
     context "invalid id" do
