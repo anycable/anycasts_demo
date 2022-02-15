@@ -3,7 +3,10 @@
 require "system_helper"
 
 describe "/" do
+  let(:user) { create(:user) }
   let!(:channels) { create_pair(:channel) }
+
+  before { login(user) }
 
   before { visit root_path }
 

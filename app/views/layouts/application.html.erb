@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= action_cable_with_jwt_meta_tag %>
+    <%= action_cable_with_jwt_meta_tag(user: current_user) if current_user %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
@@ -14,6 +14,15 @@
 
   <body>
     <main class="container min-h-screen mx-auto pt-28 pb-28 px-5 flex h-screen">
+      <%- if current_user -%>
+        <nav class="absolute right-2 top-2 p-6">
+          <%= form_tag logout_path, method: :delete do %>
+            <span>@<%= current_user.username %></span>
+            <span class="text-sm">(<%=
+              button_tag "Sign out", type: :submit, class: "text-black hover:text-red no-underline" %>)</span>
+          <% end %>
+        </nav>
+      <%- end -%>
       <%= yield %>
     </main>
   </body>

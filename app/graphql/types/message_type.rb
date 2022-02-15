@@ -14,5 +14,9 @@ module Types
     field :updated_at, DateTime,
       description: "Message updated_at timestamp",
       null: false
+
+    def author
+      object.user.username
+    end
   end
 end
