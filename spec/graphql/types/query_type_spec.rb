@@ -1,16 +1,15 @@
 require "rails_helper"
+require Rails.root.join("spec", "schema_executor_shared_context")
 
 RSpec.describe Types::QueryType do
+  include_context "schema executor"
+
   let!(:channels) { create_list(:channel, 5) }
   let!(:messages) { create_list(:message, 5, channel: channels.first) }
   let(:error_message) do
     result.dig("errors")
           .first
           .dig("message")
-  end
-
-  subject(:result) do
-    AnycastsDemoSchema.execute(query).as_json
   end
 
   describe "channels" do
@@ -81,7 +80,7 @@ RSpec.describe Types::QueryType do
         let(:channels) { create_list(:channel, 55) }
 
         it "returns only max channels per page" do
-          expect(result_channels_names.size).to eql AnycastsDemoSchema.default_max_page_size
+          expect(result_channels_names.size).to eql ApplicationSchema.default_max_page_size
         end
       end
 

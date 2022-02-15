@@ -1,22 +1,17 @@
 require "rails_helper"
+require Rails.root.join("spec", "schema_executor_shared_context")
 
 describe Mutations::SendMessageMutation do
+  include_context "schema executor"
+
   let!(:channels) { create_pair(:channel) }
-
-  subject(:result) do
-    AnycastsDemoSchema.execute(
-      mutation,
-      variables: variables,
-      context: { current_user: "user-0" }).as_json
-  end
-
   let(:channel_id) { channels.first.id }
   let(:input) { { content: "Hello" } }
   let(:variables) do
     { channelId: channel_id, input: input }
   end
 
-  let(:mutation) do
+  let(:query) do
     <<~GRAPHQL
       mutation sendMessage($channelId: ID!, $input: NewMessageInput!) {
         sendMessage(channelId: $channelId, input: $input) {
