@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :channels, only: [:index, :show] do
     resources :messages, only: [:create]
   end
+
+  resources :profiles, only: [:show]
+
   root "channels#index"
 
   post "/api/graphql", to: "graphql#execute"
