@@ -1,5 +1,8 @@
 # Change log
 
 ## master
-- Rubocop configuration, Lefthook & Pronto. ([@fargelus]).
-- GraphQL api added. ([@fargelus][])
+- GraphQL API added. ([@fargelus][])
+- Rubocop configuration, Lefthook & Pronto. ([@fargelus][]).
+- Added docker, docker-compose, dip. ([@fargelus][]).
+
+[@fargelus]: https://github.com/fargelus
