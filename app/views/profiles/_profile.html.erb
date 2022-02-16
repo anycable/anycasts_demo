@@ -1,0 +1,18 @@
+<turbo-frame id="profile" class="h-full flex-grow" data-turbo-permanent data-controller="clearer">
+  <%- if local_assigns[:user] -%>
+    <div class="border-l border-red-100 h-full pl-4">
+      <nav class="flex flex-row justify-between items-baseline mb-5">
+        <h2 class="font-bold text-2xl">Profile</h2>
+        <div class="text-sm self-center cursor-pointer hover:opacity-75" data-action="click->clearer#clear">╳</div>
+      </nav>
+
+      <div class="text-green-900 mb-4">
+        @<%= user.username %>
+      </div>
+
+      <form class="mb-4">
+        <button type="submit" class="rounded py-2 px-5 border-red-600 border text-red-600 inline-block cursor-pointer hover:bg-red-100 transition-colors disabled:cursor-not-allowed">Message</button>
+      </form>
+    </div>
+  <%- end -%>
+</turbo-frame>
