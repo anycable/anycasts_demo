@@ -2,7 +2,7 @@ require Rails.root.join("lib", "graphql_playground", "rack")
 
 Rails.application.routes.draw do
   post "/api/graphql", to: "graphql#execute"
-  if Rails.env.development? # rubocop:disable Lint/Env
+  if Rails.configuration.graphql_playground_enabled
     mount GraphQLPlayground::Rack.new, at: "/graphql"
   end
 

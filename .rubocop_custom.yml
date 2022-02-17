@@ -1,3 +1,6 @@
+require:
+  - ./lib/rubocop/cops
+
 Lint/Env:
   Enabled: true
   Include:

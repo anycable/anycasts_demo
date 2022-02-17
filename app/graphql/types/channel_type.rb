@@ -2,7 +2,8 @@
 
 module Types
   class ChannelType < Types::BaseObject
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :created_at, GraphQL::Types::ISO8601DateTime, null: false,
+      description: "Created at timestamp"
     field :messages,
       Types::MessageType.connection_type,
       description: "Returns all messages in channels"

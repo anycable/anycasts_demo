@@ -16,7 +16,7 @@ module Mutations
       message.author = current_user
 
       if message.save
-        {message: message}
+        {message:}
       else
         {errors: message.errors}
       end
