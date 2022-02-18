@@ -10,7 +10,7 @@ module Types
     end
 
     def channels
-      Channel.all
+      Channel.order(:id)
     end
 
     def channel(id:)
