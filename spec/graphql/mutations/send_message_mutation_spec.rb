@@ -1,11 +1,7 @@
 require "rails_helper"
-require Rails.root.join("spec", "schema_executor_shared_context")
 
-describe Mutations::SendMessageMutation do
-  include_context "schema executor"
-
-  let!(:channels) { create_pair(:channel) }
-  let(:channel_id) { channels.first.id }
+describe Mutations::Messages::SendMessageMutation, type: :graphql do
+  let(:channel_id) { Channel.first.id }
   let(:input) { { content: "Hello" } }
   let(:variables) do
     { channelId: channel_id, input: input }

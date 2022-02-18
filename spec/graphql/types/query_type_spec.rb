@@ -1,11 +1,8 @@
 require "rails_helper"
-require Rails.root.join("spec", "schema_executor_shared_context")
 
-RSpec.describe Types::QueryType do
-  include_context "schema executor"
-
-  let!(:channels) { create_list(:channel, 5) }
-  let!(:messages) { create_list(:message, 5, channel: channels.first) }
+RSpec.describe Types::QueryType, type: :graphql do
+  let(:channels_count) { 5 }
+  let(:channels) { Channel.order(:id).first(channels_count) }
   let(:error_message) do
     result.dig("errors")
           .first
@@ -17,7 +14,7 @@ RSpec.describe Types::QueryType do
       let(:query) do
         <<~GRAPHQL
           query getChannels {
-            channels {
+            channels(first: #{channels_count}) {
               nodes {
                 name
               }
@@ -31,8 +28,10 @@ RSpec.describe Types::QueryType do
         result_channels.dig("nodes").pluck("name")
       end
 
-      it "returns all channel's name" do
-        expect(result_channels_names).to match_array(channels.pluck(:name))
+      let(:channel_names) { channels.pluck(:name) }
+
+      it "returns channel's name" do
+        expect(channel_names).to match_array(result_channels_names)
       end
 
       it "has nodes field in result" do
@@ -44,7 +43,7 @@ RSpec.describe Types::QueryType do
         let(:query) do
           <<~GRAPHQL
             query getChannels {
-              channels {
+              channels(first: #{channels_count}) {
                 nodes {
                   name
                   messages {
@@ -77,20 +76,10 @@ RSpec.describe Types::QueryType do
       end
 
       context "paginate result" do
-        let(:channels) { create_list(:channel, 55) }
-
-        it "returns only max channels per page" do
-          expect(result_channels_names.size).to eql ApplicationSchema.default_max_page_size
-        end
-      end
-
-      context "with first param" do
-        let(:num_of_channels) { 2 }
-        let(:params) { "first: #{num_of_channels}" }
         let(:query) do
           <<~GRAPHQL
             query getChannels {
-              channels(#{params}) {
+              channels {
                 nodes {
                   name
                 }
@@ -99,11 +88,8 @@ RSpec.describe Types::QueryType do
           GRAPHQL
         end
 
-        let(:queried_channels_names) { channels.first(num_of_channels).pluck(:name) }
-
-        it "returns only specified channels" do
-          expect(result_channels_names.size).to eql num_of_channels
-          expect(queried_channels_names).to match_array(result_channels_names)
+        it "returns only max channels per page" do
+          expect(result_channels_names.size).to eql ApplicationSchema.default_max_page_size
         end
       end
     end
@@ -206,7 +192,7 @@ RSpec.describe Types::QueryType do
         end
 
         context "id is bigger than last one" do
-          let(:channel_id) { channels.last.id + 1 }
+          let(:channel_id) { Channel.last.id + 1 }
 
           it "raise an ActiveRecord error" do
             expect { result }.to raise_error(ActiveRecord::RecordNotFound)
