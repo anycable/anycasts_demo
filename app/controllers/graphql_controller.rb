@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GraphQLController < APIController
   def execute
     variables = prepare_variables(params[:variables])

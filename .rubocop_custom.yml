@@ -14,3 +14,9 @@ Lint/Env:
     - "**/spec/*_helper.rb"
     - "**/spec/**/support/**/*"
     - "lib/generators/**/*"
+
+Bundler/GemComment:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: true

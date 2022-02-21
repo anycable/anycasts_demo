@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Authenticable
   extend ActiveSupport::Concern
   include ActionDispatch::Session

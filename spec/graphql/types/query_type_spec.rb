@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe Types::QueryType, type: :graphql do
   let(:error_message) do
     result.dig("errors")
-          .first
-          .dig("message")
+      .first
+      .dig("message")
   end
 
   describe "channels" do
