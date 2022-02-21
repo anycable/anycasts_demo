@@ -2,7 +2,4 @@ pre-commit:
   parallel: true
   commands:
     pronto:
-      run: pronto run --staged --exit-code
-    standard:
-      run: bundle exec standardrb {staged_files}
-      glob: "*.rb"
+      run: bundle exec pronto run --staged --exit-code

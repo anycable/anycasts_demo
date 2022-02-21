@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -7,6 +9,8 @@ Rails.application.configure do
   config.after_initialize do
     config.action_cable.url = ActionCable.server.config.url = ENV.fetch("CABLE_URL", "ws://localhost:8080/cable") if AnyCable::Rails.enabled?
   end
+
+  config.graphql_playground_enabled = true
 
   config.turbo.signed_stream_verifier_key = "s3cЯeT"
 
@@ -57,7 +61,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true

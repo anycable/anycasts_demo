@@ -1,5 +1,6 @@
 AllCops:
   NewCops: disable
+  TargetRubyVersion: 3.1
 
 inherit_mode:
   merge:
@@ -7,8 +8,8 @@ inherit_mode:
 
 require:
   - rubocop-performance
-  - standard/cop/block_single_line_braces
-  - ./lib/rubocop/cops/lint_env
+  - rubocop-graphql
+  - standard
 
 inherit_gem:
   standard: config/base.yml
@@ -16,18 +17,6 @@ inherit_gem:
 inherit_from:
   - .rubocop_rails.yml
   - .rubocop_rspec.yml
+  - .rubocop_custom.yml
   - .rubocop_strict.yml
 
-Lint/Env:
-  Enabled: true
-  Include:
-    - "**/*.rb"
-  Exclude:
-    - "**/config/environments/**/*"
-    - "**/config/application.rb"
-    - "**/config/environment.rb"
-    - "**/config/puma.rb"
-    - "**/config/boot.rb"
-    - "**/spec/*_helper.rb"
-    - "**/spec/**/support/**/*"
-    - "lib/generators/**/*"

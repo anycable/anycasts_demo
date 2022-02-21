@@ -10,3 +10,10 @@ The flow is the following:
 
 ## Docs
 - [Docker for Development](.dockerdev/docker.md)
+
+## Git hooks for development
+This project is configured with [Lefthook](https://github.com/evilmartians/lefthook) git hook manager.<br>
+Follow this guide for setup it locally <https://github.com/evilmartians/lefthook/blob/master/docs/other.md>.
+
+## GraphQL API
+API available on `api/graphql` endpoint.
