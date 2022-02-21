@@ -24,6 +24,7 @@ interaction:
     description: Run Bundler commands
     service: rails
     command: bundle
+    compose_run_options: [ no-deps ]
 
   rspec:
     description: Run Rspec commands
