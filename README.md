@@ -1,3 +1,5 @@
+[![Build](https://github.com/anycable/anycasts_demo/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/build.yml)
+
 # AnyCasts Demo
 
 Demo application used in AnyCasts.
@@ -10,6 +12,7 @@ The flow is the following:
 
 ## Docs
 - [Docker for Development](.dockerdev/docker.md)
+- [Local Development](docs/local_dev.md)
 
 ## Git hooks for development
 This project is configured with [Lefthook](https://github.com/evilmartians/lefthook) git hook manager.<br>

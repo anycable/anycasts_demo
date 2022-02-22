@@ -1,0 +1,8 @@
+source "https://rubygems.org" do
+  gem "pronto", require: false
+  gem "pronto-rubocop", require: false
+  gem "rubocop", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubocop-rails", require: false
+  gem "standard", "~> 1.0", require: false
+end

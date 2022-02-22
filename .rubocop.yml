@@ -19,4 +19,3 @@ inherit_from:
   - .rubocop_rspec.yml
   - .rubocop_custom.yml
   - .rubocop_strict.yml
-

@@ -1,5 +1,2 @@
 # for editing credentials
 vim
-# for pronto
-cmake
-pkg-config
