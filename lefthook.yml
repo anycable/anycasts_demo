@@ -2,4 +2,4 @@ pre-commit:
   parallel: true
   commands:
     pronto:
-      run: bundle exec pronto run --staged --exit-code
+      run: bundle exec --gemfile gemfiles/linters.gemfile pronto run --staged --exit-code
