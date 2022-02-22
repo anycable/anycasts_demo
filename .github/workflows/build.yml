@@ -1,4 +1,4 @@
-name: Docker build
+name: Build
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  dip:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -43,3 +43,7 @@ jobs:
         # Pronto requires this
         run: |
           git fetch --no-tags --prune --depth=100 origin +refs/heads/*:refs/remotes/origin/*
+      - name: Install dip
+        run: gem install dip
+      - name: Run specs
+        run: dip rspec spec
