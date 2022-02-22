@@ -42,6 +42,7 @@ jobs:
       - name: Prepare for running tests
         run: |
           gem install dip
-          dip provision
+          dip bundle
+          dip RAILS_ENV="test" rails db:setup
       - name: Run specs
         run: dip rspec
