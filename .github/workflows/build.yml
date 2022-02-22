@@ -39,9 +39,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler: 2.3.6
-      - name: Install dip & gems
+      - name: Prepare for running tests
         run: |
           gem install dip
-          dip bundle
+          dip provision
       - name: Run specs
-        run: dip rspec spec
+        run: dip rspec
