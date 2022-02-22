@@ -6,6 +6,8 @@ RSpec.describe "{ channel { ... } } ", type: :graphql do
   let(:result_channel) { result.dig("data", "channel") }
 
   context "valid query" do
+    before { create_list(:message, message_count) }
+
     let(:channel_id) { Channel.first.id }
     let(:message_count) { 3 }
     let(:query) do

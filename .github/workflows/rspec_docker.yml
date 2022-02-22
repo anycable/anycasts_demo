@@ -24,6 +24,7 @@ jobs:
           push: false
           cache-from: type=gha,scope=docker
           cache-to: type=gha,scope=docker
+          image: anycasts-demo-dev:1.0.0
           build-args: |
             RUBY_VERSION=3.1.0
             PG_MAJOR=14
