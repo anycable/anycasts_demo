@@ -39,11 +39,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler: 2.3.6
-      - name: Setup pronto
-        # Pronto requires this
+      - name: Install dip & gems
         run: |
-          git fetch --no-tags --prune --depth=100 origin +refs/heads/*:refs/remotes/origin/*
-      - name: Install dip
-        run: gem install dip
+          gem install dip
+          dip bundle
       - name: Run specs
         run: dip rspec spec
