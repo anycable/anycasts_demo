@@ -7,7 +7,7 @@ This repo is configured for use linters by [Pronto](https://github.com/prontolab
 By the way you should also install [Lefthook](https://github.com/evilmartians/lefthook/blob/master/docs/other.md) for running linters on only changed files.
 
 __WARNING__: If you see errors during the installation something with `rugged` gem and you have macOS.
-You need install:
+Please do following:
 
 ```sh
 brew install cmake pkg-config

@@ -12,7 +12,7 @@ The flow is the following:
 - Approved/selected ideas go to [the public backlog](https://github.com/orgs/anycable/projects/5).
 
 ## Docs
-- [Docker for Development](.dockerdev/docker.md)
+- [Docker for Development](docs/docker_for_dev.md)
 - [Local Development](docs/local_dev.md)
 
 ## Git hooks for development
