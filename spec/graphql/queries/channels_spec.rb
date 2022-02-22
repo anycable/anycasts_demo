@@ -72,6 +72,9 @@ RSpec.describe "{ channels { ... } } ", type: :graphql do
     end
 
     context "paginate result" do
+      before { create_list(:channel, max_page_size + 1) }
+
+      let(:max_page_size) { ApplicationSchema.default_max_page_size }
       let(:query) do
         <<~GRAPHQL
           query getChannels {
@@ -85,7 +88,7 @@ RSpec.describe "{ channels { ... } } ", type: :graphql do
       end
 
       it "returns only max channels per page" do
-        expect(result_channels_names.size).to eql ApplicationSchema.default_max_page_size
+        expect(result_channels_names.size).to eql max_page_size
       end
     end
   end

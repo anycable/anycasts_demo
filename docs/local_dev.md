@@ -2,7 +2,12 @@
 
 ## Linters
 
-For using Rubocop you should install all required gems from `gemfiles/linters.gemfile`.
+For using Rubocop you should install all required gems from `gemfiles/linters.gemfile`. You can do it like this:
+
+```sh
+bundle install --gemfile gemfiles/linters.gemfile
+```
+
 This repo is configured for use linters by [Pronto](https://github.com/prontolabs/pronto) under _git_ pre-commit hook see `lefthook.yml`.
 By the way you should also install [Lefthook](https://github.com/evilmartians/lefthook/blob/master/docs/other.md) for running linters on only changed files.
 
