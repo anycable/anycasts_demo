@@ -24,6 +24,8 @@ jobs:
           push: false
           cache-from: type=gha,scope=docker
           cache-to: type=gha,scope=docker
+          load: true
+          tags: anycasts_demo:latest
           build-args: |
             RUBY_VERSION=3.1.0
             PG_MAJOR=14
@@ -35,10 +37,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler: 2.3.6
-      - name: Install additional deps
-        run: |
-          gem install dip
-          dip bundle
+      - name: Install dip
+        run: gem install dip
+      - name: Bundle deps
+        run: dip bundle
       - name: Run specs
         run: |
           dip RAILS_ENV="test" rails db:setup
