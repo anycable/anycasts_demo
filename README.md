@@ -1,3 +1,6 @@
+[![Build](https://github.com/anycable/anycasts_demo/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/build.yml)
+[![Lint](https://github.com/anycable/anycasts_demo/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/lint.yml)
+
 # AnyCasts Demo
 
 Demo application used in AnyCasts.
@@ -9,7 +12,8 @@ The flow is the following:
 - Approved/selected ideas go to [the public backlog](https://github.com/orgs/anycable/projects/5).
 
 ## Docs
-- [Docker for Development](.dockerdev/docker.md)
+- [Docker for Development](docs/docker_for_dev.md)
+- [Local Development](docs/local_dev.md)
 
 ## Git hooks for development
 This project is configured with [Lefthook](https://github.com/evilmartians/lefthook) git hook manager.<br>
