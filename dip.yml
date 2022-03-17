@@ -27,7 +27,7 @@ interaction:
     compose_run_options: [ no-deps ]
 
   rspec:
-    description: Run Rails unit tests
+    description: Run Rspec commands
     service: rails
     environment:
       RAILS_ENV: test

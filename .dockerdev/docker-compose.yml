@@ -126,7 +126,7 @@ services:
       retries: 30
 
   chrome:
-    # Working on Apple M1
+    # Works on Apple M1
     image: barrenechea/browserless:latest
     ports:
       - "3333:3333"

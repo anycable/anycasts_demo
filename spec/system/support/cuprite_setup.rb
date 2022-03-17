@@ -60,7 +60,7 @@ module CupriteHelpers
     $stdout.puts "🔎 Open Chrome inspector at http://localhost:3333"
     return binding.pry if binding
 
-    page.driver.pause
+    pause
   end
 end
 
