@@ -1,9 +1,16 @@
 source "https://rubygems.org" do
+  # Quick automated code review of your changes
   gem "pronto", require: false
+  # Pronto runner for Rubocop, ruby code analyzer
   gem "pronto-rubocop", require: false
+  # Static code analyzer
   gem "rubocop", require: false
+  # Code style checking for RSpec files
   gem "rubocop-rspec", require: false
+  # A RuboCop extension focused on enforcing Rails best practices
   gem "rubocop-rails", require: false
+  # Rubocop extension for enforcing graphql-ruby best practices
   gem "rubocop-graphql", require: false
+  # Style Guide, with linter & automatic code fixer
   gem "standard", "~> 1.0", require: false
 end
