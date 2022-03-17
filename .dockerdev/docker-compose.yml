@@ -22,7 +22,6 @@ x-backend: &backend
   <<: *app
   stdin_open: true
   tty: true
-  command: /bin/bash
   volumes:
     - ..:/app:cached
     - rails_cache:/app/tmp/cache
@@ -45,6 +44,7 @@ x-backend: &backend
     ACTION_CABLE_ADAPTER: ${ACTION_CABLE_ADAPTER:-anycable}
     ANYCABLE_RPC_HOST: 0.0.0.0:50051
     ANYCABLE_BROADCAST_ADAPTER: redis
+    CHROME_URL: http://chrome:3333
   depends_on: &backend_depends_on
     postgres:
       condition: service_healthy
@@ -81,11 +81,11 @@ services:
     <<: *backend
     command: rails tailwindcss:watch
 
-  ws:
+  ws: &ws
     image: anycable/anycable-go:1.2
     ports:
       - '8080:8080'
-    environment:
+    environment: &ws_environment
       ANYCABLE_HOST: "0.0.0.0"
       ANYCABLE_PORT: 8080
       ANYCABLE_TURBO_RAILS_KEY: s3cЯeT
@@ -124,6 +124,56 @@ services:
       interval: 1s
       timeout: 3s
       retries: 30
+
+  chrome:
+    # Works on Apple M1
+    image: barrenechea/browserless:latest
+    ports:
+      - "3333:3333"
+    # Mount application source code to support file uploading
+    # (otherwise Chrome won't be able to find files).
+    # NOTE: Make sure you use absolute paths in `#attach_file`.
+    volumes:
+      - ..:/app:cached
+    environment:
+      # By default, it uses 3000, which is typically used by Rails.
+      PORT: 3333
+      # Set connection timeout to avoid timeout exception during debugging
+      # https://docs.browserless.io/docs/docker.html#connection-timeout
+      CONNECTION_TIMEOUT: 600000
+
+  rspec_system:
+    <<: *backend
+    environment:
+      <<: *backend_environment
+      APP_HOST: anycable.test
+      ANYCABLE_RPC_HOST: 0.0.0.0:50051
+      CABLE_URL: "ws://ws.anycable.test:8080/cable"
+    ports:
+      - '3000:3000'
+      - '50051'
+    depends_on:
+      <<: *backend_depends_on
+      chrome:
+        condition: service_started
+      ws_test:
+        condition: service_started
+    networks:
+      default:
+        aliases:
+          - anycable.test
+
+  ws_test:
+    <<: *ws
+    ports:
+      - '8080'
+    environment:
+      <<: *ws_environment
+      ANYCABLE_RPC_HOST: anycable.test:50051
+    networks:
+      default:
+        aliases:
+          - ws.anycable.test
 
 volumes:
   postgres:
