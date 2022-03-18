@@ -1,5 +1,4 @@
-[![Build](https://github.com/anycable/anycasts_demo/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/build.yml)
-[![Lint](https://github.com/anycable/anycasts_demo/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/lint.yml)
+[![Build](https://github.com/anycable/anycasts_demo/actions/workflows/rspec_docker.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/rspec_docker.yml)
 
 # AnyCasts Demo
 
