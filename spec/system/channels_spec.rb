@@ -2,7 +2,7 @@
 
 require "system_helper"
 
-describe "/", type: :system do
+describe "/" do
   let!(:channels) { create_pair(:channel) }
 
   before { visit root_path }
