@@ -2,13 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Types::ChannelType, type: :graphql do
-  let(:error_message) do
-    result.dig("errors")
-      .first
-      .dig("message")
-  end
-
+describe Types::ChannelType do
   context "invalid schema format" do
     let(:query) do
       <<~GRAPHQL

@@ -4,6 +4,7 @@ RSpec.shared_context "graphql_context" do
   let(:query) { "" }
   let(:variables) { {} }
   let(:context) { {current_user: "user-0"} }
+  let(:field) { result.fetch("data").keys.first }
 
   subject(:result) do
     ApplicationSchema.execute(
@@ -11,6 +12,19 @@ RSpec.shared_context "graphql_context" do
       variables:,
       context:
     ).as_json
+  end
+
+  let(:data) do
+    raise "API Query failed:\n\tquery: #{query}\n\terrors: #{result["errors"]}" if result.key?("errors")
+    result.fetch("data").dig(*field.split("->"))
+  end
+
+  let(:nodes) { data.fetch("nodes") }
+  let(:edges) { data.fetch("edges").map { |node| node.fetch("node") } }
+  let(:page_info) { data.fetch("pageInfo") }
+
+  let(:error_message) do
+    result.dig("errors")&.first&.dig("message")
   end
 end
 

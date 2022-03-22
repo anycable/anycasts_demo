@@ -2,13 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Types::QueryType, type: :graphql do
-  let(:error_message) do
-    result.dig("errors")
-      .first
-      .dig("message")
-  end
-
+describe Types::QueryType do
   describe "channels" do
     context "mismatched connection type" do
       let(:query) do
@@ -71,7 +65,7 @@ RSpec.describe Types::QueryType, type: :graphql do
       end
 
       context "id is bigger than last one" do
-        let(:channel_id) { Channel.last.id + 1 }
+        let(:channel_id) { "-1" }
 
         it "raise an ActiveRecord error" do
           expect { result }.to raise_error(ActiveRecord::RecordNotFound)
