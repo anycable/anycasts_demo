@@ -1,3 +1,10 @@
+inherit_from:
+  - .rubocop/rails.yml
+  - .rubocop/rspec.yml
+  - .rubocop/custom.yml
+  - .rubocop_todo.yml
+  - .rubocop/strict.yml
+
 AllCops:
   NewCops: disable
   TargetRubyVersion: 3.1
@@ -14,9 +21,5 @@ require:
 inherit_gem:
   standard: config/base.yml
 
-inherit_from:
-  - .rubocop_rails.yml
-  - .rubocop_rspec.yml
-  - .rubocop_custom.yml
-  - .rubocop_strict.yml
+
 

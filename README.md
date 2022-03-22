@@ -33,7 +33,7 @@ For docker environment [dip](https://github.com/bibendi/dip) using.<br>
 Use this command if you want to run all suites:
 
 ```sh
-dip rspec systems
+dip rspec system
 ```
 
 Or this one for run specific spec:
@@ -45,7 +45,7 @@ dip rspec system spec/system/channel_spec.rb
 Launching in local is simple:
 
 ```sh
-bundle exec rspec --pattern spec/system/**/*_spec.rb
+bundle exec rspec --tag type:system
 ```
 
 See [dip.yml](dip.yml) for additional info.

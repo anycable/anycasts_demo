@@ -1,5 +1,7 @@
 pre-commit:
   parallel: true
   commands:
-    pronto:
-      run: bundle exec --gemfile gemfiles/linters.gemfile pronto run --staged --exit-code
+    rubocop:
+      tags: ruby style
+      glob: "*.{rb,rake}"
+      runner: bin/rubocop --parallel --force-exclusion {staged_files}

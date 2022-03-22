@@ -1,8 +1,4 @@
 source "https://rubygems.org" do
-  # Quick automated code review of your changes
-  gem "pronto", require: false
-  # Pronto runner for Rubocop, ruby code analyzer
-  gem "pronto-rubocop", require: false
   # Static code analyzer
   gem "rubocop", require: false
   # Code style checking for RSpec files

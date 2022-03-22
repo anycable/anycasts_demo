@@ -1,5 +1,5 @@
 require:
-  - ./lib/rubocop/cops
+  - ../lib/rubocop/cops
 
 Lint/Env:
   Enabled: true
@@ -19,4 +19,10 @@ Bundler/GemComment:
   Enabled: true
 
 Style/FrozenStringLiteralComment:
+  Enabled: true
+
+RSpec/Describe:
+  Enabled: true
+
+RSpec/TypeTag:
   Enabled: true

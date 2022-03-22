@@ -5,7 +5,7 @@ environment:
 
 compose:
   files:
-    - .dockerdev/docker-compose.yml
+    - .dockerdev/compose.yml
   project_name: anycasts_demo
 
 interaction:
@@ -31,19 +31,12 @@ interaction:
     service: rails
     environment:
       RAILS_ENV: test
-    command: bundle exec rspec --exclude-pattern spec/system/**/*_spec.rb
+    command: bundle exec rspec --exclude-pattern 'system/**/*_spec.rb'
     subcommands:
-      systems:
+      system:
         description: Run all Rails system tests
         service: rspec_system
-        command: bundle exec rspec --pattern spec/system/**/*_spec.rb
-        compose:
-          run_options: [ service-ports, use-aliases ]
-
-      system:
-        description: Run selectively Rails system tests
-        service: rspec_system
-        command: bundle exec rspec
+        command: bundle exec rspec --pattern 'system/**/*_spec.rb'
         compose:
           run_options: [ service-ports, use-aliases ]
 
@@ -57,15 +50,6 @@ interaction:
         service: web
         compose:
           run_options: [service-ports, use-aliases]
-
-  prepare_tests:
-    description: Create & sync test db
-    environment:
-      RAILS_ENV: test
-    service: rails
-    command: |
-      bundle exec rails db:setup
-      bundle exec rails db:migrate
 
   psql:
     description: Run Postgres psql console
@@ -82,3 +66,4 @@ provision:
   - dip compose down --volumes
   - dip compose up -d postgres redis
   - dip bash -c bin/setup
+  - dip rails db:test:prepare
