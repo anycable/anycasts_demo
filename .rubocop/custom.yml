@@ -20,3 +20,9 @@ Bundler/GemComment:
 
 Style/FrozenStringLiteralComment:
   Enabled: true
+
+RSpec/Describe:
+  Enabled: true
+
+RSpec/TypeTag:
+  Enabled: true
