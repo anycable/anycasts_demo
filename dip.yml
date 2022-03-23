@@ -59,7 +59,7 @@ interaction:
 
   clean_cache:
     description: Delete cache files on the host machine
-    command: rm -rf $(pwd)/tmp/cache/*
+    command: rm -rf $(pwd)/tmp/cache/* $(pwd)/public/assets
 
 provision:
   - dip clean_cache

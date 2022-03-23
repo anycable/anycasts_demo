@@ -66,7 +66,7 @@ RUN gem update --system && \
 
 # Create a directory for the app code
 RUN mkdir -p /app
-WORKDIR app
+WORKDIR /app
 
 # Document that we're going to expose port 3000
 EXPOSE 3000

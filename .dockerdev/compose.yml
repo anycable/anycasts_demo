@@ -26,7 +26,8 @@ x-backend: &backend
     - rails_cache:/app/tmp/cache
     - bundle:/usr/local/bundle
     - node_modules:/app/node_modules
-    - packs:/app/public/packs
+    - assets:/app/public/assets
+    - assets_builds:/app/app/assets/builds
     - history:/usr/local/hist
     - .psqlrc:/root/.psqlrc:ro
     - .bashrc:/root/.bashrc:ro
@@ -53,11 +54,11 @@ x-backend: &backend
 services:
   rails:
     <<: *backend
-    command: rails
+    command: bundle exec rails
 
   web:
     <<: *backend
-    command: rails server -b 0.0.0.0
+    command: bundle exec rails server -b 0.0.0.0
     ports:
       - '3000:3000'
     depends_on:
@@ -78,7 +79,7 @@ services:
 
   css:
     <<: *backend
-    command: rails tailwindcss:watch
+    command: bundle exec rails tailwindcss:watch
 
   ws: &ws
     image: anycable/anycable-go:1.2
@@ -179,6 +180,7 @@ volumes:
   bundle:
   node_modules:
   rails_cache:
-  packs:
+  assets:
   history:
   redis:
+  assets_builds:
