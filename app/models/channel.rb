@@ -18,7 +18,7 @@ class Channel < ApplicationRecord
 
   class << self
     def direct_channel_name_for(*users)
-      "$#{users.map { "u#{_1.id}" }.sort.join("_")}"
+      "$#{users.map(&:id).sort.map { "u#{_1}" }.join("_")}"
     end
 
     def find_or_create_direct_for(*users)

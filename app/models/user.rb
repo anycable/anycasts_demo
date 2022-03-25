@@ -8,6 +8,6 @@ class User < ApplicationRecord
   has_many :channel_memberships, class_name: "Channel::Membership",
     inverse_of: :user,
     dependent: :destroy
-  has_many :direct_channels, -> { direct }, through: :channel_memberships,
+  has_many :direct_channels, -> { direct.order(created_at: :desc) }, through: :channel_memberships,
     source: :channel
 end
