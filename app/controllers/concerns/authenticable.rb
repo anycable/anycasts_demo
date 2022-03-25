@@ -8,7 +8,7 @@ module Authenticable
   end
 
   def current_user
-    @current_user ||= find_user_from_session ||
+    @current_user ||= Current.user || find_user_from_session ||
       find_user_from_cookies
   end
 
