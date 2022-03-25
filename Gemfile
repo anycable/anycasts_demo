@@ -71,4 +71,6 @@ group :test do
   gem "capybara"
   # Headless Chrome/Chromium driver for Capybara
   gem "cuprite"
+  # Tests profiling utils
+  gem "test-prof"
 end

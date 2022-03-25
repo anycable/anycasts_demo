@@ -244,6 +244,7 @@ GEM
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.5-x86_64-linux)
       railties (>= 6.0.0)
+    test-prof (1.0.7)
     thor (1.2.1)
     timeout (0.2.0)
     turbo-rails (1.0.1)
@@ -288,6 +289,7 @@ DEPENDENCIES
   rspec-rails
   stimulus-rails
   tailwindcss-rails
+  test-prof
   turbo-rails
   tzinfo-data
   web-console

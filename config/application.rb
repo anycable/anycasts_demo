@@ -39,7 +39,7 @@ module AnycastsDemo
       g.stylesheets false
       g.javascripts false
       g.test_framework nil
-      g.system_tests false
+      g.system_tests nil
     end
   end
 end
