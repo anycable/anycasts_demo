@@ -12,6 +12,8 @@ Channel.pluck(:id) => [id_1, id_2]
 
 User.create!(username: "vova89", password: "qwerty")
 User.create!(username: "alice", password: "qwerty")
+jack = User.create!(username: "jack", password: "qwerty")
+sally = User.create!(username: "sally", password: "qwerty")
 
 user_ids = User.pluck(:id)
 
@@ -21,5 +23,13 @@ Message.insert_all(
     {content: "Who knows :shrug:", user_id: user_ids.sample, channel_id: id_1},
     {content: "Rails 7 :heart:", user_id: user_ids.sample, channel_id: id_2},
     {content: "I'm still on 4.2 :(", user_id: user_ids.sample, channel_id: id_2}
+  ]
+)
+
+direct_channel = Channel.find_or_create_direct_for(jack, sally)
+Message.insert_all(
+  [
+    {content: "Hey, how is it going?", user_id: jack.id, channel_id: direct_channel.id},
+    {content: "I'm fine, just can't feel my hand...", user_id: sally.id, channel_id: direct_channel.id}
   ]
 )

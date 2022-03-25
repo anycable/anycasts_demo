@@ -14,7 +14,8 @@ class ChannelsController < ApplicationController
   private
 
   def set_channels
-    @channels = Channel.all.order(name: :asc)
+    @channels = Channel.general.order(name: :asc)
+    @direct_channels = current_user.direct_channels.preload(:members).order(created_at: :desc)
   end
 
   def set_channel

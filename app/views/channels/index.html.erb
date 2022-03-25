@@ -2,6 +2,8 @@
   <nav class="w-1/4 border-r border-red-100 mr-4" id="channels">
     <h2 class="font-bold text-2xl mb-5">Channels</h1>
     <%= render @channels %>
+    <hr class="border-red-100">
+    <%= render @direct_channels %>
   </nav>
   <div class="w-3/4 overflow-y-scroll h-full">
     <%= render "channels/chat", channel: current_channel %>
