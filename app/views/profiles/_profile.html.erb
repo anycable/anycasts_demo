@@ -1,6 +1,6 @@
 <turbo-frame id="profile" class="h-full flex-grow" data-turbo-permanent data-controller="clearer">
   <%- if local_assigns[:user] -%>
-    <div class="border-l border-red-100 h-full pl-4">
+    <div class="border-l border-red-100 h-full pl-4" style="min-width: 200px">
       <nav class="flex flex-row justify-between items-baseline mb-5">
         <h2 class="font-bold text-2xl">Profile</h2>
         <div class="text-sm self-center cursor-pointer hover:opacity-75" data-action="click->clearer#clear">╳</div>
