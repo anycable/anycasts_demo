@@ -10,14 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_15_202153) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_25_163024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "channels", force: :cascade do |t|
-    t.string "name"
+
+
+  create_table "channel_memberships", force: :cascade do |t|
+    t.bigint "channel_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["channel_id", "user_id"], name: "index_channel_memberships_on_channel_id_and_user_id", unique: true
+    t.index ["channel_id"], name: "index_channel_memberships_on_channel_id"
+    t.index ["user_id"], name: "index_channel_memberships_on_user_id"
+  end
+
+  create_table "channels", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "kind", default: "general", null: false
+    t.index ["kind"], name: "index_channels_on_kind"
+    t.index ["name"], name: "index_channels_on_name", unique: true
   end
 
   create_table "messages", force: :cascade do |t|
@@ -37,5 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_15_202153) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "channel_memberships", "channels"
+  add_foreign_key "channel_memberships", "users"
   add_foreign_key "messages", "users"
 end
