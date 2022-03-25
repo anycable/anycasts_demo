@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  belongs_to :channel
+  belongs_to :channel, touch: true
   belongs_to :user
 
   after_commit on: :create do
