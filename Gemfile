@@ -8,6 +8,8 @@ ruby "~> 3.1.0"
 gem "rails", "~> 7.0.0"
 # PostgreSQL client library
 gem "pg"
+# PG enums the Rails way
+gem "activerecord-postgres_enum"
 
 # GraphQL Ruby implementation
 gem "graphql", "~> 2.0"
