@@ -11,9 +11,10 @@
       </div>
 
       <% if user != current_user %>
-        <form class="mb-4">
-          <button type="submit" class="rounded py-2 px-5 border-red-600 border text-red-600 inline-block cursor-pointer hover:bg-red-100 transition-colors disabled:cursor-not-allowed">Message</button>
-        </form>
+        <%= form_tag channels_directs_path, method: :post, class: "mb-4", data: { "turbo-frame" => "_top" } do %>
+          <%= hidden_field_tag :user_id, user.id %>
+          <%= button_tag "Message", type: "submit", class: "rounded py-2 px-5 border-red-600 border text-red-600 inline-block cursor-pointer hover:bg-red-100 transition-colors disabled:cursor-not-allowed" %>
+        <% end %>
       <% end %>
     </div>
   <%- end -%>

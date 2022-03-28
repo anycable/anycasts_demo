@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     resources :messages, only: [:create]
   end
 
+  namespace :channels do
+    resource :directs, only: [:create]
+  end
+
   resources :profiles, only: [:show]
 
   root "channels#index"
