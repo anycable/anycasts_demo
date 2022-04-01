@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Ruby with Bundler
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Install dip
+        run: gem install dip
+      - name: Run specs
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5433
+        run: |
+          dip compose up -d postgres
+          bundle exec rails db:test:prepare
+          bundle exec rspec
