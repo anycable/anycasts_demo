@@ -1,4 +1,4 @@
-[![Build](https://github.com/anycable/anycasts_demo/actions/workflows/rspec_docker.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/rspec_docker.yml)
+[![Build](https://github.com/anycable/anycasts_demo/actions/workflows/rspec.yml/badge.svg?branch=main)](https://github.com/anycable/anycasts_demo/actions/workflows/rspec.yml)
 
 # AnyCasts Demo
 

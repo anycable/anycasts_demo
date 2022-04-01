@@ -16,12 +16,11 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Install dip
-        run: gem install dip
+      - name: Start postgres
+        run: sudo systemctl start postgresql.service
       - name: Run specs
         env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5433
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
         run: |
-          dip compose up -d postgres
           bundle exec rails db:test:prepare
           bundle exec rspec
