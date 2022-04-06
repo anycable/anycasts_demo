@@ -19,9 +19,9 @@ jobs:
       - name: Install dip
         run: gem install dip
       - name: Run specs
-        env:
-          DATABASE_URL: postgres://postgres:postgres@localhost:5433
         run: |
           dip compose up -d postgres
+          DB_ADDR=$(dip compose port postgres 5432)
+          export DATABASE_URL=postgres://postgres:postgres@$DB_ADDR
           bundle exec rails db:test:prepare
           bundle exec rspec
