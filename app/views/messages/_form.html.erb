@@ -1,6 +1,6 @@
 <turbo-frame id="<%= dom_id(channel, :form) %>" class="sticky bottom-0 p-2 border-gray-400 bg-gray-100 rounded-md mt-4 mr-4">
   <%= form_for [channel, Message.new], html: {class: "flex flex-row" } do |f| %>
-    <%= f.text_field :content, placeholder: "Message", class: "border-none flex-grow mr-2 px-2" %>
+    <%= f.text_field :content, placeholder: "Message", class: "border-none flex-grow mr-2 px-2", autocomplete: "off" %>
     <%= f.button "Send", type: "submit", class: "rounded py-2 px-5 bg-red-600 text-white inline-block cursor-pointer hover:bg-red-500 transition-colors disabled:bg-red-100 disabled:cursor-no-allowed" %>
   <% end %>
 <turbo-frame>
