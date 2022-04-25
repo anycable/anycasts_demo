@@ -1,10 +1,12 @@
+<%- messages = current_channel.messages.preload(:user).order(id: :desc).limit(20).reverse.to_a if current_channel -%>
+
 <turbo-frame id="<%= dom_id(channel, :chat) if channel %>" class="flex flex-col justify-end min-h-full">
   <div id="messages"
        class="flex-col flex overflow-y-scroll
               mr-4 flex-grow <%= current_channel ? "justify-end" : "justify-center" %>">
     <%- if current_channel -%>
-      <%= turbo_stream_from channel %>
-      <%= render current_channel.messages.preload(:user).order(id: :desc).limit(20).reverse %>
+      <%= turbo_stream_from channel, channel: "ChatChannel", params: {channel_id: channel.id, last_id: messages.last.id} %>
+      <%= render messages %>
     <%- else -%>
       <div class="text-center text-gray-500">No channel selected</div>
     <%- end -%>

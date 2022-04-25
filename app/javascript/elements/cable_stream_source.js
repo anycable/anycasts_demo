@@ -17,7 +17,6 @@ class StreamSourceElement extends HTMLElement {
   }
 
   dispatchMessageEvent(data) {
-    console.log("DATA", data);
     const event = new MessageEvent("message", { data });
     return this.dispatchEvent(event);
   }
