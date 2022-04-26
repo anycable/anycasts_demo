@@ -1,3 +1,3 @@
-import { createConsumer } from "@anycable/web"
+import { createConsumer, fetchTokenFromHTML } from "@anycable/web"
 
-export default createConsumer();
+export default createConsumer({tokenRefresher: fetchTokenFromHTML()});
