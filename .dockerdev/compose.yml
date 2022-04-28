@@ -82,7 +82,7 @@ services:
     command: bundle exec rails tailwindcss:watch
 
   ws: &ws
-    image: anycable/anycable-go:1.2
+    image: anycable/anycable-go:1.5.0.preview0-alpine
     ports:
       - '8080:8080'
     environment: &ws_environment
@@ -93,6 +93,7 @@ services:
       ANYCABLE_REDIS_URL: redis://redis:6379/0
       ANYCABLE_RPC_HOST: anycable:50051
       ANYCABLE_DISABLE_DISCONNECT: 1
+      ANYCABLE_BROKER: memory
       ANYCABLE_DEBUG: ${ANYCABLE_DEBUG:-1}
     depends_on:
       redis:
