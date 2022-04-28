@@ -19,6 +19,7 @@ class ActionCableExtProtocol {
     this.streamsPositions = {}
     this.subscriptionStreams = {}
     this.restoreSince = renderDateFromMeta() || now()
+    this.sessionId = undefined;
   }
 
   attached(cable) {
@@ -39,7 +40,7 @@ class ActionCableExtProtocol {
       this.cable.send({
         command: 'subscribe',
         identifier,
-        history: { since: this.restoreSince }
+        history: this.historyRequestFor(identifier)
       })
     })
   }
@@ -84,6 +85,24 @@ class ActionCableExtProtocol {
     }
 
     if (type === 'welcome') {
+      this.sessionId = msg.sid
+
+      if (this.sessionId) {
+        this.addSessionIdToUrl()
+      }
+
+      if (msg.restored) {
+        this.cable.restored()
+
+        for (let identifier in this.subscriptionStreams) {
+          this.cable.send({
+            identifier,
+            command: "history",
+            history: this.historyRequestFor(identifier)
+          })
+        }
+      }
+
       return this.cable.connected()
     }
 
@@ -104,6 +123,9 @@ class ActionCableExtProtocol {
       if (!subscription) {
         return this.logger.error('subscription not found', { identifier })
       }
+
+      this.subscriptionStreams[identifier] = new Set()
+
       return subscription.resolve(identifier)
     }
 
@@ -113,10 +135,13 @@ class ActionCableExtProtocol {
         return this.logger.error('subscription not found', { identifier })
       }
 
+      delete this.subscriptionStreams[identifier]
+
       return subscription.reject(new SubscriptionRejectedError())
     }
 
     if (message) {
+      this.trackStreamPosition(identifier, msg.stream_id, msg.epoch, msg.offset)
       return { identifier, message }
     }
 
@@ -132,8 +157,45 @@ class ActionCableExtProtocol {
     this.pendingSubscriptions = {}
   }
 
+  // TODO: Check for DisconnectedError (is not recoverable)
   recoverableClosure(err) {
-    return false
+    return !!this.sessionId
+  }
+
+  historyRequestFor(identifier) {
+    let streams = {}
+
+    if (this.subscriptionStreams[identifier]) {
+      for (let stream of this.subscriptionStreams[identifier]) {
+        let record = this.streamsPositions[stream]
+        if (record) {
+          streams[stream] = record
+        }
+      }
+    }
+
+    return { since: this.restoreSince, streams }
+  }
+
+  trackStreamPosition(identifier, stream, epoch, offset) {
+    if (!this.subscriptionStreams[identifier]) {
+      this.logger.warn(`received a message for an unknown subscription: ${identifier}`)
+      return
+    }
+
+    this.subscriptionStreams[identifier].add(stream)
+    this.streamsPositions[stream] = {epoch, offset}
+  }
+
+  addSessionIdToUrl() {
+    const transport = this.cable.transport;
+    const url = new URL(transport.url);
+
+    url.searchParams.set("sid", this.sessionId);
+
+    const newURL = `${url.protocol}//${url.host}${url.pathname}?${url.searchParams}`;
+
+    transport.setURL(newURL);
   }
 }
 
