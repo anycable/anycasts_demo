@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
 @layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+  .message.mine {
+    @apply self-start border-teal-300 mr-4;
+  }
+
+  .message.theirs {
+    @apply self-end ml-4;
   }
 }
-
-*/
