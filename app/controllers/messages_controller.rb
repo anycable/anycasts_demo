@@ -3,9 +3,7 @@ class MessagesController < ApplicationController
     @channels = Channel.all.order(name: :asc)
     @current_channel = Channel.find(params[:channel_id])
 
-    current_channel.messages.create(message_params.merge(user: current_user))
-
-    render partial: "messages/form", locals: {channel: current_channel}
+    @message = current_channel.messages.create(message_params.merge(user: current_user))
   end
 
   private

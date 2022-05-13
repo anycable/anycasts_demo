@@ -1,0 +1,7 @@
+<%= turbo_stream.append "messages" do %>
+  <%= render @message %>
+<% end %>
+
+<%= turbo_stream.replace dom_id(current_channel, :form) do %>
+  <%= render partial: "messages/form", locals: {channel: current_channel} %>
+<% end %>

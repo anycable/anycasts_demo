@@ -1,4 +1,5 @@
-<div class="message theirs rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300">
+<%- klass = current_user&.id == message.user_id ? 'mine' : 'theirs' -%>
+<div id="<%= dom_id(message) %>" class="message <%= klass %> rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300">
   <%= message.content %>
   <span
     data-role="author"

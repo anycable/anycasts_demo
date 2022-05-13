@@ -3,6 +3,11 @@ class Message < ApplicationRecord
   belongs_to :user
 
   after_commit on: :create do
-    broadcast_append_to channel, partial: "messages/message", locals: {message: self}, target: "messages"
+    broadcast_append_to(
+      channel,
+      partial: "messages/message",
+      locals: {message: self, current_user: nil},
+      target: "messages"
+    )
   end
 end
