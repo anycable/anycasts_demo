@@ -5,7 +5,7 @@
        class="flex-col flex overflow-y-scroll
               mr-4 flex-grow <%= current_channel ? "justify-end" : "justify-center" %>">
     <%- if current_channel -%>
-      <%= turbo_stream_from channel, channel: "ChatChannel", params: {channel_id: channel.id, last_id: messages.last.id} %>
+      <%= turbo_history_stream_from channel, params: {channel_id: channel.id, model: Message}, cursor: "#messages .message:last-child" %>
       <%= render messages %>
     <%- else -%>
       <div class="text-center text-gray-500">No channel selected</div>

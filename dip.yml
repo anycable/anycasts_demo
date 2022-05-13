@@ -51,6 +51,11 @@ interaction:
         compose:
           run_options: [service-ports, use-aliases]
 
+  anycable:
+    service: anycable
+    compose:
+      run_options: [service-ports, use-aliases]
+
   psql:
     description: Run Postgres psql console
     service: postgres

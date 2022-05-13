@@ -6,8 +6,42 @@ const { subscribeTo } = cable;
 class StreamSourceElement extends HTMLElement {
   async connectedCallback() {
     connectStreamSource(this);
+    let element = this;
+
     this.subscription = await subscribeTo(this.channel, {
-      received: this.dispatchMessageEvent.bind(this),
+      initialized() {
+        this.pending = true
+        this.pendingMessages = []
+      },
+      disconnected() {
+        this.pending = true
+      },
+      received(data) {
+        if (data.type === "history_ack") {
+          this.pending = false
+          while(this.pendingMessages.length > 0){
+            this.received(this.pendingMessages.shift())
+          }
+          return
+        }
+        if (this.pending) {
+          return this.pendingMessages.push(data)
+        }
+
+        element.dispatchMessageEvent(data)
+      },
+      connected() {
+        let selector = element.getAttribute("cursor-selector")
+        if (!selector) return
+
+        let el = document.querySelector(selector)
+        if (!el) return
+
+        let cursor = el.getAttribute("data-cursor")
+        if (!cursor) return
+
+        this.perform("history", { cursor })
+      }
     });
   }
 
@@ -37,4 +71,4 @@ class StreamSourceElement extends HTMLElement {
   }
 }
 
-customElements.define("turbo-cable-stream-source-ext", StreamSourceElement);
+customElements.define("turbo-cable-stream-source-history", StreamSourceElement);
