@@ -1,4 +1,4 @@
-<div class="message theirs rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300">
+<div data-controller="message" data-message-user-id="<%= message.user_id %>" class="message rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300">
   <%= message.content %>
   <span
     data-role="author"

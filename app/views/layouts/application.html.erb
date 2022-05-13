@@ -7,6 +7,7 @@
     <%= csp_meta_tag %>
     <%= action_cable_with_jwt_meta_tag(user: current_user) if current_user %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <meta name="current-user-id" content="<%= current_user&.id %>">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
