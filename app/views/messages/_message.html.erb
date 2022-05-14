@@ -6,5 +6,5 @@
     data-action="click->framenav#open"
     data-framenav-target-value="profile"
     data-framenav-source-value="<%= profile_path(message.user) %>"
-    class="self-end text-gray-400 cursor-pointer hover:opacity-75 text-xs lg:text-sm truncate mt-1"><%= message.user.username %></span>
+    class="self-end text-gray-400 cursor-pointer hover:opacity-75 text-xs lg:text-sm truncate mt-1"><%= message.user.username %> [<%= I18n.locale %>]</span>
 </div>
