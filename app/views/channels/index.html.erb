@@ -8,7 +8,8 @@
       <%= render current_user.direct_channels.preload(:members) %>
     </div>
   </nav>
-  <div class="w-3/4 overflow-y-scroll h-full">
+  <div class="w-3/4 overflow-y-scroll h-full relative">
+    <%= render "channels/presence", users: current_channel.online_users if current_channel%>
     <%= render "channels/chat", channel: current_channel %>
   </div>
   <%= render "profiles/profile" %>

@@ -2,6 +2,7 @@
 
 class TurboChannel < Turbo::StreamsChannel
   include Turbo::Streams::TransmitAction
+  include Turbo::Streams::Presence
 
   def history(data)
     cursor = data.fetch("cursor")

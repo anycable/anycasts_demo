@@ -7,6 +7,7 @@ class StreamSourceElement extends HTMLElement {
   async connectedCallback() {
     connectStreamSource(this);
     let element = this;
+    let presenceId;
 
     this.subscription = await subscribeTo(this.channel, {
       initialized() {
@@ -15,6 +16,7 @@ class StreamSourceElement extends HTMLElement {
       },
       disconnected() {
         this.pending = true
+        this.stopPresence()
       },
       received(data) {
         if (data.type === "history_ack") {
@@ -41,6 +43,14 @@ class StreamSourceElement extends HTMLElement {
         if (!cursor) return
 
         this.perform("history", { cursor })
+
+        this.startPresence()
+      },
+      startPresence() {
+        presenceId = setInterval(() => this.perform("presence_keepalive"), 60000)
+      },
+      stopPresence() {
+        if (presenceId) clearInterval(presenceId)
       }
     });
   }
@@ -67,7 +77,9 @@ class StreamSourceElement extends HTMLElement {
       params = JSON.parse(paramsJSON);
     }
 
-    return { ...params, channel, signed_stream_name };
+    const presence = this.getAttribute("presence");
+
+    return { ...params, channel, signed_stream_name, presence };
   }
 }
 

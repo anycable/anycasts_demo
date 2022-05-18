@@ -36,5 +36,29 @@ class Channel < ApplicationRecord
         end
       end
     end
+
+    def turbo_history(turbo_channel, last_id, params)
+      channel = Channel.find(params[:channel_id])
+
+      channel.messages
+        .preload(:user)
+        .where("id > ?", last_id)
+        .reorder(id: :asc).each do |message|
+        turbo_channel.transmit_append target: "messages", partial: "messages/message", locals: {message:}
+      end
+    end
+
+    def turbo_broadcast_presence(params)
+      channel = Channel.find(params[:channel_id])
+
+      channel.broadcast_replace_to channel,
+        partial: "channels/presence",
+        locals: {current_channel: channel, users: channel.online_users},
+        target: "presence"
+    end
+  end
+
+  def online_users
+    ::Presence.for(id).then { User.where(id: _1) }
   end
 end

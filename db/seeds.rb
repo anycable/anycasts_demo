@@ -33,3 +33,6 @@ Message.insert_all(
     {content: "I'm fine, just can't feel my hand...", user_id: sally.id, channel_id: direct_channel.id}
   ]
 )
+
+railsconf_channel = Channel.create!(name: "railsconf-2022")
+railsconf_channel.messages.create!(content: "It's great to be back offline", user: sally)

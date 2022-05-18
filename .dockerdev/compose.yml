@@ -88,11 +88,11 @@ services:
     environment: &ws_environment
       ANYCABLE_HOST: "0.0.0.0"
       ANYCABLE_PORT: 8080
-      ANYCABLE_TURBO_RAILS_KEY: s3cЯeT
+      # ANYCABLE_TURBO_RAILS_KEY: s3cЯeT
       ANYCABLE_JWT_ID_KEY: merry-x-max
       ANYCABLE_REDIS_URL: redis://redis:6379/0
       ANYCABLE_RPC_HOST: anycable:50051
-      ANYCABLE_DISABLE_DISCONNECT: 1
+      # ANYCABLE_DISABLE_DISCONNECT: 1
       ANYCABLE_DEBUG: ${ANYCABLE_DEBUG:-1}
     depends_on:
       redis:
