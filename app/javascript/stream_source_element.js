@@ -17,9 +17,14 @@ function snakeize(obj) {
 class TurboCableStreamSourceElement extends HTMLElement {
   async connectedCallback() {
     connectStreamSource(this)
+    this.historyReceived = false
+    this.pendingMessages = []
+
     this.subscription = cable.subscriptions.create(this.channel,
       {
-        received: this.dispatchMessageEvent.bind(this)
+        received: this.receive.bind(this),
+        connected: this.requestHistory.bind(this),
+        disconnected: this.handleDisconnect.bind(this)
       }
     )
   }
@@ -32,6 +37,48 @@ class TurboCableStreamSourceElement extends HTMLElement {
   dispatchMessageEvent(data) {
     const event = new MessageEvent("message", { data })
     return this.dispatchEvent(event)
+  }
+
+  receive(data){
+    if (data.type === "history_ack") {
+      this.historyReceived = true
+
+      this.pendingMessages.forEach((data) => {
+        this.dispatchMessageEvent(data)
+      })
+
+      this.pendingMessages.length = 0
+
+      return
+    }
+
+    if (!this.historyReceived) {
+      this.pendingMessages.push(data)
+      return
+    }
+
+    this.dispatchMessageEvent(data)
+  }
+
+  handleDisconnect() {
+    this.historyReceived = false
+  }
+
+  requestHistory() {
+    let selector = this.getAttribute("history_selector")
+    if (!selector) {
+      this.historyReceived = true
+      return
+    }
+
+    let lastElement = document.querySelector(selector)
+
+    if (!lastElement) {
+      this.historyReceived = true
+      return
+    }
+
+    this.subscription.perform("history", {last_message_id: lastElement.dataset.id})
   }
 
   get channel() {
