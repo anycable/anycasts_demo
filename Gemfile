@@ -15,9 +15,9 @@ gem "activerecord-postgres_enum"
 gem "graphql", "~> 2.0"
 
 # Scalable WebSockets
-gem "anycable-rails", "~> 1.2.0"
+gem "anycable-rails", "~> 1.3.0"
 # Use JWT for authentication
-gem "anycable-rails-jwt", "~> 0.1.0"
+gem "anycable-rails-jwt", "~> 0.1"
 
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
