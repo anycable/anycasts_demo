@@ -4,4 +4,4 @@ pre-commit:
     rubocop:
       tags: ruby style
       glob: "*.{rb,rake}"
-      runner: bin/rubocop --parallel --force-exclusion {staged_files}
+      run: bin/rubocop --parallel --force-exclusion {staged_files}
