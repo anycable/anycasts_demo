@@ -55,7 +55,7 @@ function turboStreamName(doc) {
 
 export default function () {
   let cableOptions = {
-    receiveTimeoutMs: 5000
+    receiveTimeoutMs: 15000
   }
 
   // Manually set authentication cookies
@@ -71,7 +71,7 @@ export default function () {
       "is status 200": (r) => r.status === 200,
     })
   ) {
-    fail("couldn't open channel");
+    fail(`couldn't open channel page: ${res.status_text}`);
   }
 
   const html = res.html();
@@ -113,6 +113,9 @@ export default function () {
     fail("failed to subscribe");
   }
 
+  // Wait for more clients to connect before sending messages
+  sleep(randomIntBetween(5, 10));
+
   for (let i = 0; i < 5; i++) {
     let startMessage = Date.now();
 
@@ -128,7 +131,7 @@ export default function () {
         "is status 200": (r) => r.status === 200,
       })
     ) {
-      fail("couldn't submit message form");
+      fail(`couldn't submit message form: ${formRes.status_text}`);
     }
 
     // Msg here is an HTML element (<turbo-stream>),
