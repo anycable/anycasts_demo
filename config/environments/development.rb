@@ -70,4 +70,21 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  if config.x.performance_testing_mode
+    config.eager_load = true
+
+    # Caching
+    config.cache_classes = true
+    config.consider_all_requests_local = false
+    config.action_controller.perform_caching = true
+    config.cache_store = :memory_store
+
+    # logging
+    config.active_record.verbose_query_logs = false
+    config.log_level = :info
+    logger = ActiveSupport::Logger.new($stdout)
+    logger.formatter = config.log_formatter
+    config.logger = ActiveSupport::TaggedLogging.new(logger)
+  end
 end
