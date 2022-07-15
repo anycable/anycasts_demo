@@ -26,6 +26,9 @@ module Authenticable
 
   def find_user_from_cookies
     user_id = cookies.encrypted[:user_id]
+    # Only use unencrypted cookies when peforming k6 tests
+    # (to simplify scripts)
+    user_id = cookies[:user_id] if Rails.application.config.x.performance_testing_mode
     return if user_id.blank?
 
     User.find_by(id: user_id)

@@ -41,5 +41,7 @@ module AnycastsDemo
       g.test_framework nil
       g.system_tests nil
     end
+
+    config.x.performance_testing_mode = ENV["PERFORMANCE"] === "true"
   end
 end

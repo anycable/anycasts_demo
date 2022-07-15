@@ -41,6 +41,7 @@ x-backend: &backend
     HISTFILE: /usr/local/hist/.bash_history
     PSQL_HISTFILE: /usr/local/hist/.psql_history
     EDITOR: vi
+    PERFORMANCE: ${PERFORMANCE:-}
     ACTION_CABLE_ADAPTER: ${ACTION_CABLE_ADAPTER:-anycable}
     ANYCABLE_RPC_HOST: 0.0.0.0:50051
     ANYCABLE_BROADCAST_ADAPTER: redis

@@ -35,3 +35,5 @@
 !/app/assets/builds/.keep
 spec/examples.txt
 .vscode/
+
+/k6
