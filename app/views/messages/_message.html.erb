@@ -1,4 +1,6 @@
-<div id="<%= dom_id(message) %>" data-user-id="<%= message.user_id %>" class="self-end ml-4 rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300">
+<% personal_class = message.user_id === current_user.id ? "self-start border-teal-300 mr-4" : "self-end ml-4 border-gray-300" %>
+
+<div id="<%= dom_id(message) %>" data-user-id="<%= message.user_id %>" class="<%= personal_class %> rounded text-sm lg:text-base border p-2 mt-2 flex flex-col">
   <%= message.content %>
   <span
     data-role="author"

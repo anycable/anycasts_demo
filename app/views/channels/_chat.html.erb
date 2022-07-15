@@ -3,7 +3,7 @@
        class="flex-col flex overflow-y-scroll
               mr-4 flex-grow <%= current_channel ? "justify-end" : "justify-center" %>">
     <%- if current_channel -%>
-      <%= turbo_stream_from channel %>
+      <%= turbo_stream_from channel, channel: "ChatChannel" %>
       <%= render current_channel.messages.preload(:user).order(id: :desc).limit(20).reverse %>
     <%- else -%>
       <div class="text-center text-gray-500">No channel selected</div>
