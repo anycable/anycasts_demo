@@ -16,7 +16,8 @@ processes = []
 
 [env]
   PORT = "8080"
-  ACTION_CABLE_ADAPTER="redis"
+  ACTION_CABLE_ADAPTER="any_cable"
+  CABLE_URL="wss://anycasts-cable.fly.dev/cable"
   PERFORMANCE="true"
   SERVER_COMMAND = "bundle exec puma"
 
