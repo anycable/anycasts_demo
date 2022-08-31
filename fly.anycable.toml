@@ -9,9 +9,15 @@ processes = []
 [env]
   PORT = "8080"
   ANYCABLE_HOST = "0.0.0.0"
+  ANYCABLE_RPC_HOST = "dns:///lhr.anycasts.internal:50051"
   ANYCABLE_TURBO_RAILS_KEY = "s3cЯeT"
   ANYCABLE_JWT_ID_KEY = "merry-x-max"
-  ANYCABLE_DISABLE_DISCONNECT = "1"
+  ANYCABLE_METRICS_HTTP = "/metrics"
+  ANYCABLE_METRICS_PORT = "9091"
+
+[metrics]
+  port = 9091
+  path = "/metrics"
 
 [experimental]
   allowed_public_ports = []

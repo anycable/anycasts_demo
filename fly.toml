@@ -18,6 +18,8 @@ processes = []
   PORT = "8080"
   ACTION_CABLE_ADAPTER="any_cable"
   CABLE_URL="wss://anycasts-cable.fly.dev/cable"
+  ANYCABLE_RPC_HOST="0.0.0.0:50051"
+  ANYCABLE_EMBEDDED="true"
   PERFORMANCE="true"
   SERVER_COMMAND = "bundle exec puma"
 
@@ -44,6 +46,9 @@ processes = []
   [[services.ports]]
     handlers = ["tls", "http"]
     port = 443
+
+  [[services.ports]]
+    port = 50051
 
   [[services.tcp_checks]]
     grace_period = "1s"
