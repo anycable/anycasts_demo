@@ -9,3 +9,4 @@ test:
 
 production:
   adapter: <%= ENV.fetch("ACTION_CABLE_ADAPTER", "any_cable") %>
+  url: <%= ENV['REDIS_URL'] %>

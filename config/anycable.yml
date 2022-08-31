@@ -26,6 +26,8 @@ default: &default
   #   $ anycable-go --redis-channel="__anycable__"
   redis_channel: "__anycable__"
   jwt_id_key: "merry-x-max"
+  server_args:
+    max_connection_age_ms: 60000
 
 development:
   <<: *default

@@ -45,7 +45,7 @@ export const options = {
     default: {
       executor: "externally-controlled",
       vus: 1,
-      maxVUs: 2000,
+      maxVUs: 5000,
       duration: `${config.TIME}s`,
     }
   },
@@ -159,7 +159,7 @@ export default function () {
   subscribeTrend.add(end - start);
 
   // Wait for the configured amout of time
-  sleep(config.TIME * 1000);
+  sleep(config.TIME * randomIntBetween(200, 400));
 
   client.disconnect();
 }
