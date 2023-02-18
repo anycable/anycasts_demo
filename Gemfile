@@ -75,4 +75,8 @@ group :test do
   gem "cuprite"
   # Tests profiling utils
   gem "test-prof"
+  # Coverage collector
+  gem "simplecov", require: false
+  # Dump coverage into index.lcov (for Coveralls)
+  gem "simplecov-lcov", require: false
 end

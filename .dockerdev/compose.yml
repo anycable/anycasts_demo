@@ -46,6 +46,7 @@ x-backend: &backend
     ANYCABLE_RPC_HOST: 0.0.0.0:50051
     ANYCABLE_BROADCAST_ADAPTER: redis
     CHROME_URL: http://chrome:3333
+    COVERAGE: ${COVERAGE:-}
   depends_on: &backend_depends_on
     postgres:
       condition: service_healthy

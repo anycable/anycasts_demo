@@ -9,6 +9,8 @@ on:
 jobs:
   rspec_docker:
     runs-on: ubuntu-latest
+    env:
+      COVERAGE: "true"
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -41,8 +43,25 @@ jobs:
         run: gem install dip
       - name: Bundle deps
         run: dip bundle
-      - name: Run specs
+      - name: Run specs (unit)
         run: |
           dip rails db:test:prepare
           dip rspec
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: unit
+          parallel: true
+          coveralls-endpoint: ${{ secrets.COVERALLS_ENDPOINT }}
+      - name: Run specs (system)
+        run: |
           dip rspec system
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: system
+          parallel: true
+          parallel-finished: true
+          coveralls-endpoint: ${{ secrets.COVERALLS_ENDPOINT }}
