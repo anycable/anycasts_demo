@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+if ENV["COVERAGE"] == "true"
+  require "simplecov"
+  require "simplecov-lcov"
+  SimpleCov::Formatter::LcovFormatter.config do |c|
+    c.report_with_single_file = true
+    c.single_report_path = "coverage/lcov.info"
+  end
+
+  SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+  SimpleCov.start "rails"
+end
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
