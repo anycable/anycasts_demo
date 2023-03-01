@@ -6,8 +6,21 @@ import http from "k6/http";
 import cable from "k6/x/cable";
 import { randomIntBetween } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
 
+export const externalOptions = {
+  scenarios: {
+    default: {
+      executor: 'externally-controlled',
+      vus: 30,
+      maxVUs: 500,
+      duration: '5m'
+    }
+  }
+};
+
+export const options = __ENV.SKIP_OPTIONS ? {} : externalOptions;
+
 import { Trend } from "k6/metrics";
-let rttTrend = new Trend("rtt", true);
+let commandTrend = new Trend("command_duration", true);
 
 // Load ENV from .env
 function loadDotEnv() {
@@ -34,9 +47,12 @@ if(!config.USER_IDS) throw "Specify USER_IDS via env or .env"
 
 let url = config.URL || "http://localhost:3000"
 let channelId = config.CHANNEL_ID
+let channelName = config.CHANNEL_NAME || "BenchmarkChannel"
 let userIds = config.USER_IDS.split(",").map(val => parseInt(val));
 
 let userId = userIds[__VU % userIds.length];
+
+let delay = parseFloat(config.DELAY || '0.1')
 
 // Find and return action-cable-url on the page
 function cableUrl(doc) {
@@ -96,15 +112,7 @@ export default function () {
     fail("connection failed");
   }
 
-  let { streamName, channelName } = turboStreamName(html);
-
-  if (!streamName) {
-    fail("couldn't find a turbo stream element");
-  }
-
-  let channel = client.subscribe(channelName, {
-    signed_stream_name: streamName,
-  });
+  let channel = client.subscribe(channelName);
 
   if (
     !check(channel, {
@@ -114,56 +122,27 @@ export default function () {
     fail("failed to subscribe");
   }
 
-  // Wait for more clients to connect before sending messages
-  sleep(randomIntBetween(5, 10));
+  for (let i = 0; i < 10; i++) {
+    let start = Date.now();
+    channel.perform("echo", { ts: start, content: `hello from ${__VU} numero ${i+1}`, delay: delay });
 
-  for (let i = 0; i < 5; i++) {
-    let startMessage = Date.now();
+    sleep(randomIntBetween(5, 10) / 100);
 
-    // We have an HTML form to submit chat messages,
-    // submitting it initiates a broadcasting
-    let formRes = res.submitForm({
-      formSelector: `#chat_channel_${channelId} form`,
-      fields: { "message[content]": `hello from ${userId} numero ${i+1}` },
-    });
+    let incoming = channel.receiveAll(1);
 
-    if (
-      !check(formRes, {
-        "is status 200": (r) => r.status === 200,
-      })
-    ) {
-      fail(`couldn't submit message form: ${formRes.status_text}`);
-    }
+    for(let message of incoming) {
+      let received = message.__timestamp__ || Date.now();
 
-    // // Create message via cable instead of a form
-    // channel.perform("speak", { channel_id: channelId, content: `hello from ${userId} numero ${i+1}` });
-
-    // Msg here is an HTML element (<turbo-stream>),
-    // we use data attributes to indicate the message author,
-    // so, here we're looking for our messages
-    let message = channel.receive((msg) => {
-      if (msg.user_id) {
-        return msg.user_id === userId
-      } else {
-        return msg.includes(`data-user-id="${userId}"`);
+      if (message.action == "echo") {
+        let ts = message.ts;
+        commandTrend.add(received - ts);
       }
-    });
-
-    if (
-      !check(message, {
-        "received its own message": (obj) => obj,
-      })
-    ) {
-      fail("expected message hasn't been received");
     }
 
-    let endMessage = Date.now();
-    rttTrend.add(endMessage - startMessage);
-
-    sleep(randomIntBetween(5, 10) / 10);
+    sleep(randomIntBetween(5, 10) / 100);
   }
 
-  sleep(randomIntBetween(5, 10) / 10);
+  sleep(randomIntBetween(2, 5));
 
   client.disconnect();
 }

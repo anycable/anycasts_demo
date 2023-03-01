@@ -6,8 +6,32 @@ import http from "k6/http";
 import cable from "k6/x/cable";
 import { randomIntBetween } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
 
-import { Trend } from "k6/metrics";
+
+const rampingOptions = {
+  scenarios: {
+    default: {
+      executor: 'ramping-vus',
+      startVUs: 100,
+      stages: [
+        { duration: '40s', target: 300 },
+        { duration: '60s', target: 500 },
+        { duration: '60s', target: 500 },
+        { duration: '120s', target: 0 },
+      ],
+      gracefulStop: '5m',
+      gracefulRampDown: '5m',
+    }
+  }
+};
+
+export const options = __ENV.SKIP_OPTIONS ? {} : rampingOptions;
+
+import { Trend, Counter } from "k6/metrics";
 let rttTrend = new Trend("rtt", true);
+let broadcastTrend = new Trend("broadcast_duration", true);
+let broadcastsSent = new Counter("broadcasts_sent");
+let broadcastsRcvd = new Counter("broadcasts_rcvd");
+let acksRcvd = new Counter("acks_rcvd");
 
 // Load ENV from .env
 function loadDotEnv() {
@@ -34,9 +58,19 @@ if(!config.USER_IDS) throw "Specify USER_IDS via env or .env"
 
 let url = config.URL || "http://localhost:3000"
 let channelId = config.CHANNEL_ID
+let channelName = config.CHANNEL_NAME || "BenchmarkChannel"
 let userIds = config.USER_IDS.split(",").map(val => parseInt(val));
 
 let userId = userIds[__VU % userIds.length];
+
+
+let sendersRatio = parseFloat((config.SENDERS_RATIO || '0.2')) || 1;
+let sendersMod = (1 / sendersRatio) | 0;
+let sender = __VU % sendersMod == 0;
+
+let sendingRate = parseFloat(config.SENDING_RATE || '0.2');
+
+let iterations = (config.N || '100') | 0;
 
 // Find and return action-cable-url on the page
 function cableUrl(doc) {
@@ -96,15 +130,7 @@ export default function () {
     fail("connection failed");
   }
 
-  let { streamName, channelName } = turboStreamName(html);
-
-  if (!streamName) {
-    fail("couldn't find a turbo stream element");
-  }
-
-  let channel = client.subscribe(channelName, {
-    signed_stream_name: streamName,
-  });
+  let channel = client.subscribe(channelName);
 
   if (
     !check(channel, {
@@ -114,56 +140,39 @@ export default function () {
     fail("failed to subscribe");
   }
 
-  // Wait for more clients to connect before sending messages
-  sleep(randomIntBetween(5, 10));
-
-  for (let i = 0; i < 5; i++) {
-    let startMessage = Date.now();
-
-    // We have an HTML form to submit chat messages,
-    // submitting it initiates a broadcasting
-    let formRes = res.submitForm({
-      formSelector: `#chat_channel_${channelId} form`,
-      fields: { "message[content]": `hello from ${userId} numero ${i+1}` },
-    });
-
-    if (
-      !check(formRes, {
-        "is status 200": (r) => r.status === 200,
-      })
-    ) {
-      fail(`couldn't submit message form: ${formRes.status_text}`);
+  for(let i = 0; ; i++) {
+    // Sampling
+    if (sender && (randomIntBetween(1, 10) / 10) <= sendingRate) {
+      let start = Date.now();
+      broadcastsSent.add(1);
+      // Create message via cable instead of a form
+      channel.perform("broadcast", { ts: start, content: `hello from ${__VU} numero ${i+1}` });
     }
 
-    // // Create message via cable instead of a form
-    // channel.perform("speak", { channel_id: channelId, content: `hello from ${userId} numero ${i+1}` });
+    sleep(randomIntBetween(5, 10) / 100);
 
-    // Msg here is an HTML element (<turbo-stream>),
-    // we use data attributes to indicate the message author,
-    // so, here we're looking for our messages
-    let message = channel.receive((msg) => {
-      if (msg.user_id) {
-        return msg.user_id === userId
-      } else {
-        return msg.includes(`data-user-id="${userId}"`);
+    let incoming = channel.receiveAll(1);
+
+    for(let message of incoming) {
+      let received = message.__timestamp__ || Date.now();
+
+      if (message.action == "broadcastResult") {
+        acksRcvd.add(1);
+        let ts = message.ts;
+        rttTrend.add(received - ts);
       }
-    });
 
-    if (
-      !check(message, {
-        "received its own message": (obj) => obj,
-      })
-    ) {
-      fail("expected message hasn't been received");
+      if (message.action == "broadcast") {
+        broadcastsRcvd.add(1);
+        let ts = message.ts;
+        broadcastTrend.add(received - ts);
+      }
     }
 
-    let endMessage = Date.now();
-    rttTrend.add(endMessage - startMessage);
+    sleep(randomIntBetween(5, 10) / 100);
 
-    sleep(randomIntBetween(5, 10) / 10);
+    if (i > iterations) break;
   }
-
-  sleep(randomIntBetween(5, 10) / 10);
 
   client.disconnect();
 }
