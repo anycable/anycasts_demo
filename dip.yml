@@ -62,8 +62,9 @@ interaction:
     command: rm -rf $(pwd)/tmp/cache/* $(pwd)/public/assets
 
 provision:
+  - '[[ "$RESET_DOCKER" == "true" ]] && echo "Re-creating the Docker env from scratch..." && dip compose down --volumes || echo "Re-provisioning the Docker env..."'
   - dip clean_cache
-  - dip compose down --volumes
   - dip compose up -d postgres redis
   - dip bash -c bin/setup
   - dip rails db:test:prepare
+  - echo "🚀 Ready to rock! Run 'dip rails s' to start a Rails web server w/ AnyCable"

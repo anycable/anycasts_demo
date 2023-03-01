@@ -18,8 +18,9 @@ processes = []
 
 [env]
   ACTION_CABLE_ADAPTER = "any_cable"
-  ANYCABLE_RPC_HOST = "0.0.0.0:50051"
   ANYCABLE_EMBEDDED = "true"
+  ANYCABLE_BROADCAST_ADAPTER = "nats"
+  ANYCABLE_FLY_WS_APP_NAME = "cable"
   CABLE_URL = "wss://cable.fly.dev/cable"
   PERFORMANCE = "true"
   PORT = "8080"

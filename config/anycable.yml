@@ -12,12 +12,6 @@
 default: &default
   # Turn on/off access logs ("Started..." and "Finished...")
   access_logs_disabled: false
-  # Persist "dirty" session between RPC calls (might be required for apps using stimulus_reflex <3.0)
-  # persistent_session_enabled: true
-  # This is the host and the port to run AnyCable RPC server on.
-  # You must configure your WebSocket server to connect to it, e.g.:
-  #   $ anycable-go --rpc-host="<rpc hostname>:50051"
-  rpc_host: "127.0.0.1:50051"
   # Whether to enable gRPC level logging or not
   log_grpc: false
   # Use HTTP adapter for a quick start (since redis gem is not present in the project)
@@ -26,8 +20,6 @@ default: &default
   #   $ anycable-go --redis-channel="__anycable__"
   redis_channel: "__anycable__"
   jwt_id_key: "merry-x-max"
-  server_args:
-    max_connection_age_ms: 60000
 
 development:
   <<: *default
@@ -37,5 +29,5 @@ test:
 
 production:
   <<: *default
-  # Use Redis in production
+  # Use Redis or NATS in production
   broadcast_adapter: redis

@@ -15,7 +15,7 @@ gem "activerecord-postgres_enum"
 gem "graphql", "~> 2.0"
 
 # Scalable WebSockets
-gem "anycable-rails", "~> 1.3.0"
+gem "anycable-rails", "~> 1.3.7"
 # Use JWT for authentication
 gem "anycable-rails-jwt", "~> 0.1"
 
@@ -39,6 +39,8 @@ gem "tailwindcss-rails"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
+# Or use NATS
+gem "nats-pure"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
