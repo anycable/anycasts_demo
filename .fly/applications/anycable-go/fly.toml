@@ -17,6 +17,10 @@ processes = []
   ANYCABLE_BROADCAST_ADAPTER = "nats"
   ANYCABLE_EMBED_NATS = "true"
   ANYCABLE_FLY_RPC_APP_NAME = "anycasts-demo"
+  # ANYCABLE_ENATS_DEBUG = "true"
+  # ANYCABLE_DEBUG = "true"
+  # ANYCABLE_ENATS_GATEWAY = "nats://0.0.0.0:7222"
+  # ANYCABLE_ENATS_GATEWAYS = "cable-ewr-cluster:nats://ewr.cable.internal:7222"
 
 [metrics]
   port = 9091
