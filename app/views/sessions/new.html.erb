@@ -1,6 +1,6 @@
 <div>
   <h1 class="mb-2">Please, name yourself!</h2>
-  <%= form_tag login_path, method: :post do %>
+  <%= form_tag login_path, method: :post, data: {turbo: "false"} do %>
     <p class="py-2">
       <%= text_field_tag :username, params[:username], placeholder: "Username", class: "flex-grow mr-2 px-2" %>
     </p>
