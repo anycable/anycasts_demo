@@ -43,5 +43,7 @@ module AnycastsDemo
     end
 
     config.x.performance_testing_mode = ENV["PERFORMANCE"] === "true"
+    config.x.fly_debug = ENV["ENABLE_FLY_DEBUG"] == "true"
+    config.x.fly_region = ENV["FLY_REGION"]
   end
 end
