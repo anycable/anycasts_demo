@@ -6,24 +6,11 @@ import http from "k6/http";
 import cable from "k6/x/cable";
 import { randomIntBetween } from "https://jslib.k6.io/k6-utils/1.1.0/index.js";
 import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.1/index.js';
+import { cableUrl, turboStreamSource } from 'https://anycable.io/xk6-cable/jslib/k6-rails/0.1.0/index.js'
+import { loadDotEnv } from './dotenv.js';
 
 import { Trend } from "k6/metrics";
 let subscribeTrend = new Trend("subscribe_time", true);
-
-// Load ENV from .env
-function loadDotEnv() {
-  try {
-    let dotenv = open("./.env");
-    dotenv.split(/[\n\r]/m).forEach((line) => {
-      // Ignore comments
-      if (line[0] === "#") return;
-
-      let parts = line.split("=", 2);
-
-      __ENV[parts[0]] = parts[1];
-    });
-  } catch (_err) {}
-}
 
 loadDotEnv();
 
@@ -68,25 +55,6 @@ export function handleSummary(data) {
 
   return {
     stdout: textSummary(data, { indent: " ", enableColors: true }),
-  };
-}
-
-// Find and return action-cable-url on the page
-function cableUrl(doc) {
-  let el = doc.find('meta[name="action-cable-url"]');
-  if (!el) return;
-
-  return el.attr("content");
-}
-
-// Find and return the Turbo stream name
-function turboStreamName(doc) {
-  let el = doc.find("#messages turbo-cable-stream-source");
-  if (!el) return;
-
-  return {
-    streamName: el.attr("signed-stream-name"),
-    channelName: el.attr("channel") || "Turbo::StreamsChannel",
   };
 }
 
@@ -135,7 +103,7 @@ export default function () {
     fail("connection failed");
   }
 
-  let { streamName, channelName } = turboStreamName(html);
+  let { streamName, channelName } = turboStreamSource(html, "#messages");
 
   if (!streamName) {
     fail("couldn't find a turbo stream element");
