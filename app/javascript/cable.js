@@ -1,3 +1,6 @@
 import { createCable, fetchTokenFromHTML } from "@anycable/web"
 
-export default createCable({tokenRefresher: fetchTokenFromHTML()});
+export default createCable({
+  protocol: 'actioncable-v1-ext-json',
+  tokenRefresher: fetchTokenFromHTML(),
+});

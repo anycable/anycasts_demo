@@ -8,6 +8,7 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= action_cable_with_jwt_meta_tag(user: current_user) if current_user %>
+    <meta name="action-cable-history-timestamp" content="<%= Time.now.to_i %>">
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
