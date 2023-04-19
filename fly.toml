@@ -19,7 +19,7 @@ processes = []
 [env]
   ACTION_CABLE_ADAPTER = "any_cable"
   ANYCABLE_EMBEDDED = "true"
-  ANYCABLE_BROADCAST_ADAPTER = "nats"
+  ANYCABLE_BROADCAST_ADAPTER = "http"
   ANYCABLE_FLY_WS_APP_NAME = "cable"
   CABLE_URL = "wss://cable.fly.dev/cable"
   PERFORMANCE = "true"
