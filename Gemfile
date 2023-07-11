@@ -15,7 +15,7 @@ gem "activerecord-postgres_enum"
 gem "graphql", "~> 2.0"
 
 # Scalable WebSockets
-gem "anycable-rails", "~> 1.3.7"
+gem "anycable-rails", "~> 1.4"
 # Use JWT for authentication
 gem "anycable-rails-jwt", "~> 0.1"
 

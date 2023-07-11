@@ -4,7 +4,7 @@ kill_timeout = 5
 processes = []
 
 [build]
-  image = "anycable/anycable-go:1.4.0-rc.1"
+  image = "anycable/anycable-go:1.4.0"
   # dockerfile = "./Dockerfile"
 
 [env]

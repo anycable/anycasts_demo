@@ -4,6 +4,8 @@
 
 Demo application used in AnyCasts.
 
+You can access the app at [anycasts-demo.fly.dev](https://anycasts-demo.fly.dev). Use `jack` or `alice` as a username and `qwerty` as a password.
+
 ## Ideas/suggestions
 
 The flow is the following:
