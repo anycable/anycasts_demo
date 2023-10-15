@@ -1,11 +1,11 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "~> 3.1.0"
+ruby "~> 3.2.0"
 
 # Bundle edge Rails instead:
 # gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.0"
+gem "rails", "~> 7.1"
 # PostgreSQL client library
 gem "pg"
 # PG enums the Rails way
@@ -23,7 +23,7 @@ gem "anycable-rails-jwt", "~> 0.1"
 gem "propshaft"
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
+gem "puma", "~> 6.0"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -38,7 +38,8 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 
 # Use Redis adapter to run Action Cable in production
-gem "redis", "~> 4.0"
+gem "redis", "~> 5.0"
+
 # Or use NATS
 gem "nats-pure"
 
