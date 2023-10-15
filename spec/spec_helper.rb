@@ -9,6 +9,14 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.filter_run_when_matching :focus
+  config.example_status_persistence_file_path = "tmp/rspec_examples.txt"
+  config.run_all_when_everything_filtered = true
+
+  if config.files_to_run.one?
+    config.default_formatter = "doc"
+  end
+
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.example_status_persistence_file_path = "tmp/rspec_examples.txt"
   config.order = :random

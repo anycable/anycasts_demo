@@ -46,6 +46,7 @@ x-backend: &backend
     ANYCABLE_BROADCAST_ADAPTER: http
     ANYCABLE_HTTP_BROADCAST_URL: http://ws:8090/_broadcast
     CHROME_URL: http://chrome:3333
+    LOG: ${LOG:-}
   depends_on: &backend_depends_on
     postgres:
       condition: service_healthy
