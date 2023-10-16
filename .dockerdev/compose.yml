@@ -84,7 +84,7 @@ services:
     command: bundle exec rails tailwindcss:watch
 
   ws: &ws
-    image: anycable/anycable-go:1.4
+    image: anycable/anycable-go:1.4.5
     ports:
       - '8080:8080'
       - '8090:8090'

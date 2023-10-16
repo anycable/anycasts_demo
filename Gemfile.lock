@@ -79,17 +79,17 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.5)
       public_suffix (>= 2.0.2, < 6.0)
-    anycable (1.4.2)
-      anycable-core (= 1.4.2)
+    anycable (1.4.3)
+      anycable-core (= 1.4.3)
       google-protobuf (~> 3.23)
       grpc (~> 1.53)
-    anycable-core (1.4.2)
+    anycable-core (1.4.3)
       anyway_config (~> 2.2)
       google-protobuf (>= 3.13)
-    anycable-rails (1.4.1)
+    anycable-rails (1.4.2)
       anycable
-      anycable-rails-core (= 1.4.1)
-    anycable-rails-core (1.4.1)
+      anycable-rails-core (= 1.4.2)
+    anycable-rails-core (1.4.2)
       actioncable (>= 6.0)
       anycable-core (~> 1.4)
       globalid
@@ -313,7 +313,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgres_enum
-  anycable-rails (~> 1.4)
+  anycable-rails (~> 1.4.2)
   anycable-rails-jwt (~> 0.1)
   bcrypt (~> 3.1.7)
   bootsnap
