@@ -26,6 +26,12 @@ interaction:
     command: bundle
     compose_run_options: [ no-deps ]
 
+  anycable:
+    description: Run AnyCable gRPC server
+    service: anycable
+    compose:
+      run_options: [ service-ports, use-aliases ]
+
   rspec:
     description: Run Rspec commands
     service: rails

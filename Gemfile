@@ -12,7 +12,8 @@ gem "pg"
 gem "activerecord-postgres_enum"
 
 # GraphQL Ruby implementation
-gem "graphql", "~> 2.0"
+gem "graphql", "2.0.22"
+gem "graphql-anycable"
 
 # Scalable WebSockets
 gem "anycable-rails", "~> 1.4.2"

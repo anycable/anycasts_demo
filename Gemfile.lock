@@ -147,8 +147,12 @@ GEM
     google-protobuf (3.24.4-x86_64-linux)
     googleapis-common-protos-types (1.9.0)
       google-protobuf (~> 3.18)
-    graphql (2.1.3)
-      racc (~> 1.4)
+    graphql (2.0.22)
+    graphql-anycable (1.1.6)
+      anycable (~> 1.0)
+      anyway_config (>= 1.3, < 3)
+      graphql (>= 1.11, < 3)
+      redis (>= 4.2.0)
     grpc (1.58.0)
       google-protobuf (~> 3.23)
       googleapis-common-protos-types (~> 1.0)
@@ -322,7 +326,8 @@ DEPENDENCIES
   debug
   factory_bot_rails
   faker
-  graphql (~> 2.0)
+  graphql (= 2.0.22)
+  graphql-anycable
   importmap-rails
   nats-pure
   pg

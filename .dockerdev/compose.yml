@@ -43,9 +43,10 @@ x-backend: &backend
     PERFORMANCE: ${PERFORMANCE:-}
     ACTION_CABLE_ADAPTER: ${ACTION_CABLE_ADAPTER:-anycable}
     ANYCABLE_RPC_HOST: 0.0.0.0:50051
-    ANYCABLE_BROADCAST_ADAPTER: http
+    ANYCABLE_BROADCAST_ADAPTER: ${ANYCABLE_BROADCAST_ADAPTER:-redis}
     ANYCABLE_HTTP_BROADCAST_URL: http://ws:8090/_broadcast
     CHROME_URL: http://chrome:3333
+    GRAPHQL_ANYCABLE_USE_CLIENT_PROVIDED_UNIQ_ID: "false"
     LOG: ${LOG:-}
   depends_on: &backend_depends_on
     postgres:
@@ -73,7 +74,7 @@ services:
     <<: *backend
     command: bundle exec anycable
     ports:
-      - '50051'
+      - '50051:50051'
     depends_on:
       <<: *backend_depends_on
       ws:

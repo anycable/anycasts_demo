@@ -1,0 +1,17 @@
+{
+  "command": "message",
+  "identifier": "{\"channel\":\"BenchmarkChannel\"}",
+  "connection_identifiers": "{}",
+  "data": "{\"action\":\"echo\", \"message\":\"hello\"}",
+  "env": {
+    "url": "http://local.test:8080/cable",
+    "headers": {
+      "User-Agent": "ghz.sh/1.0"
+    },
+    "cstate": {
+      "__ltags__": "[\"ActionCable\",\"User 9\"]"
+    },
+    "istate": {
+    }
+  }
+}

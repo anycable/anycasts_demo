@@ -1,0 +1,17 @@
+{
+  "command": "message",
+  "identifier": "{\"channel\":\"GraphQLChannel\"}",
+  "connection_identifiers": "{}",
+  "data": "{\"action\":\"execute\",\"operationName\":\"SubscribeToMessageAdded\",\"query\":\"subscription SubscribeToMessageAdded($channelId: ID!, $a: String, $b: String, $c: String, $d: String) { messageAdded(channelId: $channelId, a: $a, b: $b, c: $c, d: $d) { message { id content createdAt } } }\",\"variables\":{\"channelId\":\"1\",\"a\":\"{{.RequestNumber}}\",\"b\":\"{{.TimestampUnix}}\",\"c\":\"{{.TimestampUnix}}\",\"d\":\"{{.TimestampUnix}}\"}}",
+  "env": {
+    "url": "http://local.test:8080/cable",
+    "headers": {
+      "User-Agent": "ghz.sh/1.0"
+    },
+    "cstate": {
+      "__ltags__": "[\"ActionCable\",\"User 9\"]"
+    },
+    "istate": {
+    }
+  }
+}

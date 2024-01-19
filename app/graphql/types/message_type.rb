@@ -11,6 +11,7 @@ module Types
     field :created_at, DateTime,
       description: "Message created_at timestamp",
       null: false
+    field :id, ID, null: false
     field :updated_at, DateTime,
       description: "Message updated_at timestamp",
       null: false

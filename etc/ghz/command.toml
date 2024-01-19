@@ -1,0 +1,10 @@
+host = "0.0.0.0:50051"
+insecure = true
+proto = "etc/ghz/rpc.proto"
+
+call = "anycable.RPC/Command"
+data-file = "etc/ghz/benchmark_echo.json"
+metadata-file = "etc/ghz/metadata.json"
+
+concurrency = 1
+total = 1
