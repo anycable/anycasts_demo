@@ -1,3 +1,2 @@
-web: bundle exec rails server -p 3000 -b 0.0.0.0
+web: ANYCABLE_OPT="--broadcast_adapter=http --secret=s3cЯeT --rpc_host=http://localhost:3000/_anycable --http_broadcast_port=8090" HTTP_PORT=3000 TARGET_PORT=3001 bundle exec thrust bin/rails s -p 3001
 css: bundle exec rails tailwindcss:watch
-ws: anycable-go --port=8080 --broadcast_adapter=http --jwt_id_key=merry-x-max --turbo_rails_key=s3cЯeT

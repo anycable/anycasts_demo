@@ -4,17 +4,17 @@ kill_timeout = 5
 processes = []
 
 [build]
-  image = "anycable/anycable-go:1.4.0"
+  image = "anycable/anycable-go:1.5.2"
   # dockerfile = "./Dockerfile"
 
 [env]
   PORT = "8080"
-  ANYCABLE_TURBO_RAILS_KEY = "s3cЯeT"
-  ANYCABLE_JWT_ID_KEY = "merry-x-max"
+  ANYCABLE_SECRET = "s3cЯeT"
   ANYCABLE_METRICS_HTTP = "/metrics"
   ANYCABLE_METRICS_PORT = "9091"
   ANYCABLE_HEADERS = "jid"
-  ANYCABLE_BROADCAST_ADAPTER = "http,nats"
+  ANYCABLE_BROADCAST_ADAPTER = "http"
+  ANYCABLE_HTTP_BROADCAST_PORT = "8090"
   ANYCABLE_PUBSUB = "nats"
   ANYCABLE_BROKER = "memory"
   ANYCABLE_EMBED_NATS = "true"

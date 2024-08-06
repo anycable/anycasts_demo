@@ -3,7 +3,15 @@
 require "spec_helper"
 ENV["RAILS_ENV"] = "test"
 
-require_relative "../config/environment"
+begin
+  require_relative "../config/environment"
+rescue LoadError => e
+  warn <<~MSG
+    Could not load Rails: #{e.message}\n#{e.backtrace.take(5).join("\n")}
+  MSG
+  exit 1
+end
+
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require "rspec/rails"

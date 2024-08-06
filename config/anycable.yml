@@ -19,15 +19,19 @@ default: &default
   # Use the same channel name for WebSocket server, e.g.:
   #   $ anycable-go --redis-channel="__anycable__"
   redis_channel: "__anycable__"
-  jwt_id_key: "merry-x-max"
+  http_rpc_mount_path: "/_anycable"
 
 development:
   <<: *default
+  secret: "s3cЯeT"
+  websocket_url: ws://localhost:3000/cable
 
 test:
   <<: *default
+  secret: "test"
 
 production:
   <<: *default
   # Use Redis or NATS in production
   broadcast_adapter: redis
+  http_rpc_mount_path: ~

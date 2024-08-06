@@ -1,90 +1,92 @@
-# syntax = docker/dockerfile:experimental
-ARG RUBY_VERSION=2.7.3
-ARG VARIANT=jemalloc-slim
-FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-${VARIANT} as base
+# syntax = docker/dockerfile:1
 
-ARG NODE_VERSION=16
-ARG BUNDLER_VERSION=2.3.9
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=3.2.2
+FROM ruby:$RUBY_VERSION-slim as base
 
-ARG RAILS_ENV=production
-ENV RAILS_ENV=${RAILS_ENV}
+LABEL fly_launch_runtime="rails"
 
-ENV RAILS_SERVE_STATIC_FILES true
-ENV RAILS_LOG_TO_STDOUT true
+# Rails app lives here
+WORKDIR /rails
 
-ARG BUNDLE_WITHOUT=development:test
-ARG BUNDLE_PATH=vendor/bundle
-ENV BUNDLE_PATH ${BUNDLE_PATH}
-ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
+# Set production environment
+ENV RAILS_ENV="production" \
+    BUNDLE_WITHOUT="development:test" \
+    BUNDLE_DEPLOYMENT="1" \
+    DATA_PATH="/data"
 
-RUN mkdir /app
-WORKDIR /app
-RUN mkdir -p tmp/pids
+# Update gems and bundler
+RUN gem update --system --no-document && \
+    gem install -N bundler
 
-SHELL ["/bin/bash", "-c"]
+# Throw-away build stage to reduce size of final image
+FROM base as build
 
-RUN curl https://get.volta.sh | bash
-
-ENV BASH_ENV ~/.bashrc
-ENV VOLTA_HOME /root/.volta
-ENV PATH $VOLTA_HOME/bin:/usr/local/bin:$PATH
-
-RUN volta install node@${NODE_VERSION} && volta install yarn
-
-FROM base as build_deps
-
-ARG DEV_PACKAGES="git build-essential libpq-dev wget vim curl gzip xz-utils libsqlite3-dev"
-ENV DEV_PACKAGES ${DEV_PACKAGES}
-
+# Install packages needed to build gems and node modules
 RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
     --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
-    apt-get install --no-install-recommends -y ${DEV_PACKAGES} \
-    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get install --no-install-recommends -y build-essential curl git node-gyp pkg-config python-is-python3
 
-FROM build_deps as gems
+# Install Node.js
+ARG NODE_VERSION=20.3.0
+ENV PATH=/usr/local/node/bin:$PATH
+RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
+    /tmp/node-build-master/bin/node-build "${NODE_VERSION}" /usr/local/node && \
+    rm -rf /tmp/node-build-master
 
-RUN gem install -N bundler -v ${BUNDLER_VERSION}
+# Install application gems
+COPY --link Gemfile Gemfile.lock ./
+COPY --link gemfiles/rubocop.gemfile gemfiles/
 
-COPY Gemfile* ./
-RUN bundle install &&  rm -rf vendor/bundle/ruby/*/cache
+RUN --mount=type=cache,id=bld-gem-cache,sharing=locked,target=/srv/vendor \
+    --mount=type=secret,id=BUNDLE_PACKAGER__DEV \
+    bundle config set app_config .bundle && \
+    bundle config set path /srv/vendor && \
+    BUNDLE_PACKAGER__DEV="$(cat /run/secrets/BUNDLE_PACKAGER__DEV)" bundle install && \
+    bundle exec bootsnap precompile --gemfile && \
+    bundle clean && \
+    mkdir -p vendor && \
+    bundle config set path vendor && \
+    cp -ar /srv/vendor .
 
-FROM build_deps as node_modules
+# Copy application code
+COPY --link . .
 
-COPY package*json ./
-COPY yarn.* ./
+# Precompile bootsnap code for faster boot times
+RUN bundle exec bootsnap precompile app/ lib/
 
-RUN if [ -f "yarn.lock" ]; then \
-    yarn install; \
-    elif [ -f "package-lock.json" ]; then \
-    npm install; \
-    else \
-    mkdir node_modules; \
-    fi
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+RUN SECRET_KEY_BASE_DUMMY=1 \
+    ./bin/rails assets:precompile
 
+# Final stage for app image
 FROM base
 
-ARG PROD_PACKAGES="postgresql-client file vim curl gzip libsqlite3-0"
-ENV PROD_PACKAGES=${PROD_PACKAGES}
-
-RUN --mount=type=cache,id=prod-apt-cache,sharing=locked,target=/var/cache/apt \
-    --mount=type=cache,id=prod-apt-lib,sharing=locked,target=/var/lib/apt \
+# Install packages needed for deployment
+RUN --mount=type=cache,id=dev-apt-cache,sharing=locked,target=/var/cache/apt \
+    --mount=type=cache,id=dev-apt-lib,sharing=locked,target=/var/lib/apt \
     apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    ${PROD_PACKAGES} \
-    && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get install --no-install-recommends -y curl libsqlite3-0
 
-COPY --from=gems /app /app
-COPY --from=node_modules /app/node_modules /app/node_modules
+# Copy built artifacts: gems, application
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /rails /rails
 
-ENV SECRET_KEY_BASE 1
+# Run and own only the runtime files as a non-root user for security
+RUN groupadd --system --gid 1000 rails && \
+    useradd rails --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+    mkdir /data && \
+    chown -R 1000:1000 db log tmp /data
+USER 1000:1000
 
-COPY . .
+# Deployment options
+ENV DATABASE_URL="sqlite3:///data/db.sqlite3"
 
-RUN bundle exec rails assets:precompile
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-ENV PORT 8080
-
-ARG SERVER_COMMAND="bundle exec puma"
-ENV SERVER_COMMAND ${SERVER_COMMAND}
-CMD ${SERVER_COMMAND}
+# Start the server by default, this can be overwritten at runtime
+EXPOSE 3000
+VOLUME /data
+CMD ["./bin/rails", "server"]

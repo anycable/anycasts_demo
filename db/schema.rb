@@ -11,11 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2022_03_25_163024) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-
-
   create_table "channel_memberships", force: :cascade do |t|
     t.bigint "channel_id", null: false
     t.bigint "user_id", null: false

@@ -16,6 +16,14 @@ Capybara.default_normalize_ws = true
 # It could be useful to be able to configure this path from the outside (e.g., on CI).
 Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS", "./tmp/capybara")
 
+Capybara.server_port = 3002
+Capybara.server = :thruster, {debug: ENV["DEBUG"] == "1", env: {
+  "ANYCABLE_BROADCAST_ADAPTER" => "http",
+  "ANYCABLE_HTTP_BROADCAST_PORT" => "8090",
+  "ANYCABLE_SECRET" => "test",
+  "ANYCABLE_RPC_HOST" => "http://localhost:#{Capybara.server_port + 1}/_anycable"
+}}
+
 Capybara.singleton_class.prepend(Module.new do
   attr_accessor :last_used_session
 

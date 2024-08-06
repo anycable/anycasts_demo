@@ -6,18 +6,16 @@ ruby "~> 3.2.0"
 # Bundle edge Rails instead:
 # gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1"
-# PostgreSQL client library
-gem "pg"
-# PG enums the Rails way
-gem "activerecord-postgres_enum"
+# SQLlite3 is good enough for us
+gem "sqlite3", "~> 1.4"
+# Better SQLite support for Rails
+gem "activerecord-enhancedsqlite3-adapter"
 
 # GraphQL Ruby implementation
 gem "graphql", "~> 2.0"
 
 # Scalable WebSockets
-gem "anycable-rails", "~> 1.4.2"
-# Use JWT for authentication
-gem "anycable-rails-jwt", "~> 0.1"
+gem "anycable-rails", "~> 1.5"
 
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
@@ -76,6 +74,10 @@ group :test do
   gem "capybara"
   # Headless Chrome/Chromium driver for Capybara
   gem "cuprite"
+  # Use Thruster with AnyCable in browser tests
+  gem "anycable-thruster"
+  # Use Thruster as Capybara server
+  gem "capybara-thruster"
   # Tests profiling utils
   gem "test-prof"
 end
