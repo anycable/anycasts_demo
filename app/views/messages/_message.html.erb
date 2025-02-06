@@ -8,7 +8,7 @@
     data-action="click->framenav#open"
     data-framenav-target-value="profile"
     data-framenav-source-value="<%= profile_path(message.user) %>"
-    class="message--author">
+    class="message--author u-<%= message.user.color %>">
       <%= message.user.username %>
       <%= " @ #{Current.fly_region}" if Current.fly_region %>
     </span>

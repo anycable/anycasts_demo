@@ -10,4 +10,8 @@ class User < ApplicationRecord
     dependent: :destroy
   has_many :direct_channels, -> { direct.order(created_at: :desc) }, through: :channel_memberships,
     source: :channel
+
+  COLORS = %w[rose purple green yellow pink indigo].freeze
+
+  def color = COLORS[id % COLORS.size]
 end

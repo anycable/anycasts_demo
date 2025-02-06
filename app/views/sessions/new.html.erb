@@ -5,10 +5,10 @@
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
       <% User.all.without(User.first).each do |user| %>
-        <%= form_tag login_path, method: :post, data: {turbo: "false"}, class: "user-button--form" do %>
+        <%= form_tag login_path, method: :post, data: {turbo: "false"} do %>
           <%= hidden_field_tag :username, user.username, id: nil %>
           <%= hidden_field_tag :password, "qwerty", id: nil %>
-          <button type="submit" class="user-button border-2 py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105">
+          <button type="submit" class="user-button u-<%= user.color %> border-2 py-3 px-4 rounded-lg transition duration-200 transform hover:scale-105">
             <%= user.username %>
           </button>
         <% end %>

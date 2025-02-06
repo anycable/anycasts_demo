@@ -19,10 +19,14 @@
     <main>
       <%- if current_user -%>
         <nav class="absolute right-2 top-2 p-6">
-          <%= form_tag logout_path, method: :delete, data: {turbo: false} do %>
-            <span>@<%= current_user.username %></span>
-            <span class="text-sm">(<%=
-              button_tag "Sign out", type: :submit, class: "text-black hover:text-red no-underline" %>)</span>
+          <%= form_tag logout_path, method: :delete, data: {turbo: false}, class: "flex items-center" do %>
+            <span class="u-<%= current_user.color %>">@<%= current_user.username %></span>
+            <%=
+              button_tag type: :submit, class: "text-black hover:text-red no-underline" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                </svg>
+              <% end %>
           <% end %>
         </nav>
       <%- end -%>
