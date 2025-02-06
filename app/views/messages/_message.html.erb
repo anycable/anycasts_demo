@@ -1,4 +1,6 @@
-<div id="<%= dom_id(message) %>" data-user-id="<%= message.user_id %>" class="message self-end ml-4 rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300 bg-white">
+<div id="<%= dom_id(message) %>" data-user-id="<%= message.user_id %>"
+  data-chat-target="message"
+  class="message">
   <%= message.content %>
   <span
     data-role="author"
@@ -6,7 +8,7 @@
     data-action="click->framenav#open"
     data-framenav-target-value="profile"
     data-framenav-source-value="<%= profile_path(message.user) %>"
-    class="self-end text-gray-400 cursor-pointer hover:opacity-75 text-xs lg:text-sm truncate mt-1">
+    class="message--author">
       <%= message.user.username %>
       <%= " @ #{Current.fly_region}" if Current.fly_region %>
     </span>

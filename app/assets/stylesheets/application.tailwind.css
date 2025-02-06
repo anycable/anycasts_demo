@@ -24,4 +24,20 @@
   .user-button--form .user-button:hover {
     @apply text-white;
   }
+
+  .message {
+    @apply self-start ml-4 rounded text-sm lg:text-base border p-2 mt-2 flex flex-col border-gray-300 bg-white;
+  }
+
+  .message--author {
+    @apply self-end text-gray-400 cursor-pointer hover:opacity-75 text-xs lg:text-sm truncate mt-1;
+  }
+
+  .message.mine {
+    @apply self-end border-blue-400;
+  }
+
+  .message.mine .message--author {
+    @apply hidden;
+  }
 }
