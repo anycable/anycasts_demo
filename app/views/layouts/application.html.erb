@@ -15,8 +15,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container min-h-screen mx-auto pt-28 pb-28 px-5 flex h-screen">
+  <body class="bg-gray-100">
+    <main>
       <%- if current_user -%>
         <nav class="absolute right-2 top-2 p-6">
           <%= form_tag logout_path, method: :delete, data: {turbo: false} do %>

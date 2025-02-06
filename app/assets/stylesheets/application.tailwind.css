@@ -2,12 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-
 @layer components {
-  .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+  .user-button--form:nth-child(6n+1) .user-button {
+    @apply border-blue-500 text-blue-500 hover:bg-blue-500;
+  }
+  .user-button--form:nth-child(6n+2) .user-button {
+    @apply border-green-500 text-green-500 hover:bg-green-500;
+  }
+  .user-button--form:nth-child(6n+3) .user-button {
+    @apply border-purple-500 text-purple-500 hover:bg-purple-500;
+  }
+  .user-button--form:nth-child(6n+4) .user-button {
+    @apply border-yellow-500 text-yellow-500 hover:bg-yellow-500;
+  }
+  .user-button--form:nth-child(6n+5) .user-button {
+    @apply border-pink-500 text-pink-500 hover:bg-pink-500;
+  }
+  .user-button--form:nth-child(6n) .user-button {
+    @apply border-indigo-500 text-indigo-500 hover:bg-indigo-500;
+  }
+  .user-button--form .user-button:hover {
+    @apply text-white;
   }
 }
-
-*/
