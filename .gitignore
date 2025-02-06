@@ -30,6 +30,7 @@
 !/tmp/storage/.keep
 
 /public/assets
+/public/assets_test
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
