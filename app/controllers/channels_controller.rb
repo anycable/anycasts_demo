@@ -4,6 +4,7 @@ class ChannelsController < ApplicationController
 
   # GET /channels
   def index
+    redirect_to @channels.first
   end
 
   # GET /channels/1

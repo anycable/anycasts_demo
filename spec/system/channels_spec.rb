@@ -8,14 +8,12 @@ describe "/" do
 
   before { login(user) }
 
-  it "has channels links with no active channel by default" do
+  it "shows channel links" do
     visit root_path
 
     channels.each do |ch|
       expect(page).to have_link("##{ch.name}", href: "/channels/#{ch.id}")
     end
-
-    expect(page).to have_text("No channel selected")
   end
 
   context "with direct channels" do
