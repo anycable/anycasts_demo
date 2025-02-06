@@ -3,6 +3,8 @@
 # If running the rails server then create or migrate existing database
 if [ "${*}" == "./bin/rails server" ]; then
   ./bin/rails db:prepare
+  # Reset the database on each deploy/restart
+  env DISABLE_DATABASE_ENVIRONMENT_CHECK=1 ./bin/rails db:seed:replant
 fi
 
 exec "${@}"
