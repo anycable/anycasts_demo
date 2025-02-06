@@ -21,7 +21,9 @@ Bundler.require(*Rails.groups)
 module AnycastsDemo
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.0
+
+    config.assets.css_compressor = nil
 
     # Configuration for the application, engines, and railties goes here.
     #

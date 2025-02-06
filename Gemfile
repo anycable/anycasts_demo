@@ -1,21 +1,19 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby "~> 3.2.0"
+ruby "~> 3.3.0"
 
 # Bundle edge Rails instead:
 # gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1"
+gem "rails", "~> 8.0"
 # SQLlite3 is good enough for us
-gem "sqlite3", "~> 1.4"
-# Better SQLite support for Rails
-gem "activerecord-enhancedsqlite3-adapter"
+gem "sqlite3", "~> 2.0"
 
 # GraphQL Ruby implementation
 gem "graphql", "~> 2.0"
 
 # Scalable WebSockets
-gem "anycable-rails", "~> 1.5"
+gem "anycable-rails", "1.6.0.rc.1"
 
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
@@ -33,7 +31,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
-gem "tailwindcss-rails"
+gem "tailwindcss-rails", "~> 3.0"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 5.0"
@@ -67,6 +65,10 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  # Process manager for development
+  gem "overmind"
+
+  eval_gemfile "gemfiles/rubocop.gemfile"
 end
 
 group :test do

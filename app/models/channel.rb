@@ -9,7 +9,7 @@ class Channel < ApplicationRecord
 
   has_many :members, through: :memberships, source: :user
 
-  enum kind: {
+  enum :kind, {
     general: "general",
     direct: "direct"
   }

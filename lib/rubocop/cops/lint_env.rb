@@ -3,7 +3,7 @@ module RuboCop
     module Lint
       # This cops checks for direct usage of ENV variables and
       # Rails.env
-      class Env < RuboCop::Cop::Cop
+      class Env < RuboCop::Cop::Base
         MSG_ENV = "Avoid direct usage of ENV in application code"
         MSG_RAILS_ENV = "Avoid direct usage of Rails.env in application code"
         USAGE_MSG = ", use configuration parameters instead"

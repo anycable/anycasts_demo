@@ -14,7 +14,7 @@ module RuboCop
       #  describe MyClass do
       #    # ...
       #  end
-      class Describe < RuboCop::Cop::Cop
+      class Describe < RuboCop::Cop::Base
         MSG = "Use `describe` instead of `RSpec.describe`."
 
         def_node_matcher :rspec_describe?, <<~PATTERN

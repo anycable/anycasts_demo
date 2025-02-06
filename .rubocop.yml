@@ -7,7 +7,8 @@ inherit_from:
 
 AllCops:
   NewCops: disable
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.3
+  SuggestExtensions: false
 
 inherit_mode:
   merge:
@@ -20,6 +21,3 @@ require:
 
 inherit_gem:
   standard: config/base.yml
-
-
-
