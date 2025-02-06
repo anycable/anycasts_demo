@@ -1,7 +1,13 @@
-<%= turbo_stream.replace dom_id(current_channel, :form) do %>
-  <%= render partial: "messages/form", locals: { channel: current_channel } %>
-<% end %>
+<% if @message.valid? %>
+  <%= turbo_stream.replace dom_id(current_channel, :form) do %>
+    <%= render partial: "messages/form", locals: { channel: current_channel } %>
+  <% end %>
 
-<%= turbo_stream.append :messages do %>
-  <%= render partial: "messages/message", locals: {message: @message} %>
+  <%= turbo_stream.append :messages do %>
+    <%= render partial: "messages/message", locals: {message: @message} %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace dom_id(current_channel, :form) do %>
+    <%= render partial: "messages/form", locals: { channel: current_channel, message: @message } %>
+  <% end %>
 <% end %>
