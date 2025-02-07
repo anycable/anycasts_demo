@@ -40,6 +40,22 @@
   .message.mine .message--author {
     @apply hidden;
   }
+
+  .message .online-indicator {
+    @apply w-2 h-2 rounded-full hidden mr-1 bg-teal-300;
+  }
+
+  .message .online-indicator.online {
+    @apply inline-block;
+  }
+
+  .online-indicator {
+    @apply hidden;
+  }
+
+  .online-indicator.online {
+    @apply inline-block;
+  }
 }
 
 .field_with_errors {

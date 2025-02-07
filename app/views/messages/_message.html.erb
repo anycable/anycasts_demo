@@ -9,6 +9,7 @@
     data-framenav-target-value="profile"
     data-framenav-source-value="<%= profile_path(message.user) %>"
     class="message--author u-<%= message.user.color %>">
+      <i class="online-indicator" data-online-target="user" data-id="<%= message.user.id %>"></i>
       <%= message.user.username %>
       <%= " @ #{Current.fly_region}" if Current.fly_region %>
     </span>
