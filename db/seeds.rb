@@ -10,12 +10,9 @@ ruby_channel = Channel.create!(name: "ruby")
 random_channel = Channel.create!(name: "random")
 rails_channel = Channel.create!(name: "rubyonrails")
 
-# some random users
 User.create!(username: "vova89", password: "qwerty")
-User.create!(username: "alice", password: "qwerty")
-User.create!(username: "bob", password: "qwerty")
-
-# user for direct channels
+alice = User.create!(username: "alice", password: "qwerty")
+bob = User.create!(username: "bob", password: "qwerty")
 jack = User.create!(username: "jack", password: "qwerty")
 sally = User.create!(username: "sally", password: "qwerty")
 bart = User.create!(username: "bart", password: "qwerty")
@@ -50,5 +47,33 @@ Message.insert_all(
   [
     {content: "Eat my shorts!", user_id: bart.id, channel_id: direct_channel_2.id},
     {content: "D'oh!", user_id: homer.id, channel_id: direct_channel_2.id}
+  ]
+)
+
+direct_channel_3 = Channel.find_or_create_direct_for(alice, bob)
+Message.insert_all(
+  [
+    {content: "Hi Bob, did you finish that bug fix?", user_id: alice.id, channel_id: direct_channel_3.id},
+    {content: "Almost done, just running final tests", user_id: bob.id, channel_id: direct_channel_3.id},
+    {content: "Great, let me know when it's ready to review", user_id: alice.id, channel_id: direct_channel_3.id}
+  ]
+)
+
+direct_channel_4 = Channel.find_or_create_direct_for(jack, homer)
+Message.insert_all(
+  [
+    {content: "Hey Homer, want to grab a donut?", user_id: jack.id, channel_id: direct_channel_4.id},
+    {content: "Mmm... donuts", user_id: homer.id, channel_id: direct_channel_4.id},
+    {content: "I know a great place downtown", user_id: jack.id, channel_id: direct_channel_4.id}
+  ]
+)
+
+direct_channel_5 = Channel.find_or_create_direct_for(sally, bob)
+Message.insert_all(
+  [
+    {content: "Bob, can you help me with this Rails issue?", user_id: sally.id, channel_id: direct_channel_5.id},
+    {content: "Sure, what's the problem?", user_id: bob.id, channel_id: direct_channel_5.id},
+    {content: "Getting a weird ActiveRecord error", user_id: sally.id, channel_id: direct_channel_5.id},
+    {content: "Send me the stack trace", user_id: bob.id, channel_id: direct_channel_5.id}
   ]
 )
