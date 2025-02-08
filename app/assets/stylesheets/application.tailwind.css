@@ -56,6 +56,26 @@
   .online-indicator.online {
     @apply inline-block;
   }
+
+  turbo-presence-source {
+    @apply hidden;
+  }
+
+  turbo-presence-source[connected] {
+    @apply contents;
+  }
+
+  .channel-presence .channel-presence--list {
+    @apply hidden;
+  }
+
+  .channel-presence[present] .channel-presence--list {
+    @apply block;
+  }
+
+  .channel-presence[present] .channel-presence--icon {
+    @apply text-teal-500;
+  }
 }
 
 .field_with_errors {

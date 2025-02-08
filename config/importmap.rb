@@ -10,4 +10,5 @@ pin "@hotwired/turbo", to: "@hotwired--turbo.js" # @8.0.12
 pin "@anycable/turbo-stream", to: "@anycable--turbo-stream.js" # @0.7.0
 
 pin "cable", to: "cable.js", preload: true
+pin "presence_source_element", to: "presence_source_element.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
