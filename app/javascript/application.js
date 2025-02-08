@@ -6,3 +6,9 @@ import cable from "cable"
 start(cable, { requestSocketIDHeader: true })
 
 import "controllers"
+import { PresenceSourceElement } from "presence_source_element";
+
+PresenceSourceElement.cable = cable;
+if (customElements.get('turbo-presence-source') === undefined) {
+  customElements.define('turbo-presence-source', PresenceSourceElement)
+}

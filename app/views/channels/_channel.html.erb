@@ -1,5 +1,8 @@
 <div id="<%= dom_id channel %>">
-  <p class="my-2 <%= "font-bold" if channel == current_channel %>">
+  <div class="my-2 <%= "font-bold" if channel == current_channel %> flex flex-row items-center justify-between relative">
     <%= link_to_channel(channel) %>
-  </p>
+    <% if channel == current_channel %>
+      <%= render "presence", channel: %>
+    <% end %>
+  </div>
 </div>
