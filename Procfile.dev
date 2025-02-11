@@ -1,4 +1,2 @@
-# web: ANYCABLE_OPT="--broker=memory --broadcast_adapter=http --secret=s3cЯeT --rpc_host=localhost:50051 --http_broadcast_port=8090" HTTP_PORT=3000 TARGET_PORT=3001 bundle exec thrust bin/rails s
-web: PORT=3000 bin/rails s
+web: ANYCABLE_OPT="--broker=memory --broadcast_adapter=http --secret=s3cЯeT --rpc_host=http://localhost:3000/_anycable --http_broadcast_port=8090 --presence_ttl=1" HTTP_PORT=3000 TARGET_PORT=3001 bundle exec thrust bin/rails s
 css: bundle exec rails tailwindcss:watch
-anycable: bundle exec anycable

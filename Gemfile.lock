@@ -82,18 +82,18 @@ GEM
       base64 (>= 0.2)
       google-protobuf (~> 4)
       stringio (~> 3)
-    anycable-rails (1.6.0.rc.1)
+    anycable-rails (1.6.0.rc.2)
       anycable
-      anycable-rails-core (= 1.6.0.rc.1)
-    anycable-rails-core (1.6.0.rc.1)
+      anycable-rails-core (= 1.6.0.rc.2)
+    anycable-rails-core (1.6.0.rc.2)
       actioncable (>= 7.0, < 9.0)
       anycable-core (>= 1.6.0.rc.1, < 1.7.0)
       globalid
-    anycable-thruster (0.1.11)
-    anycable-thruster (0.1.11-aarch64-linux)
-    anycable-thruster (0.1.11-arm64-darwin)
-    anycable-thruster (0.1.11-x86_64-darwin)
-    anycable-thruster (0.1.11-x86_64-linux)
+    anycable-thruster (0.1.12)
+    anycable-thruster (0.1.12-aarch64-linux)
+    anycable-thruster (0.1.12-arm64-darwin)
+    anycable-thruster (0.1.12-x86_64-darwin)
+    anycable-thruster (0.1.12-x86_64-linux)
     anyway_config (2.6.4)
       ruby-next-core (~> 1.0)
     ast (2.4.2)
@@ -427,7 +427,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  anycable-rails (= 1.6.0.rc.1)
+  anycable-rails (= 1.6.0.rc.2)
   anycable-thruster
   bcrypt (~> 3.1.7)
   bootsnap

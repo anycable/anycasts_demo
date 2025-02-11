@@ -4,7 +4,7 @@ kill_timeout = 5
 processes = []
 
 [build]
-  image = "anycable/anycable-go:1.6.0-rc.1"
+  image = "anycable/anycable-go:1.6.0-rc.2"
   # dockerfile = "./Dockerfile"
 
 [env]
@@ -17,6 +17,7 @@ processes = []
   ANYCABLE_HTTP_BROADCAST_PORT = "8090"
   ANYCABLE_PUBSUB = "nats"
   ANYCABLE_BROKER = "memory"
+  ANYCABLE_PRESENCE_TTL = "2"
   ANYCABLE_EMBED_NATS = "true"
   ANYCABLE_FLY_RPC_APP_NAME = "anycasts-demo"
   # ANYCABLE_ENATS_DEBUG = "true"

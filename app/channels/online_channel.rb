@@ -4,6 +4,6 @@ class OnlineChannel < ApplicationCable::Channel
   def subscribed
     stream_from "online_users"
 
-    join_presence(id: user.id.to_s, info: {name: user.username})
+    join_presence(id: user.id, info: {name: user.username})
   end
 end
