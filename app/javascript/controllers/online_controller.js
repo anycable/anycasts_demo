@@ -1,19 +1,27 @@
 import { Controller } from "@hotwired/stimulus"
 import cable from "cable"
 
+// memoize the channel
+let channel
+const subscribeToOnlineChannel = () => {
+  if (channel) return channel
+
+  channel = cable.subscribeTo("OnlineChannel")
+  return channel
+}
+
 export default class extends Controller {
   static targets = ["user"];
 
   async connect() {
-    this.channel = cable.subscribeTo("OnlineChannel");
+    this.channel = subscribeToOnlineChannel();
     this.unlistener = this.channel.on("presence", this.handlePresence.bind(this));
 
     this.userTargets.forEach(this.userTargetConnected.bind(this));
   }
 
   disconnect() {
-    if (this.channel) {
-      this.channel.unsubscribe();
+    if (this.unlistener) {
       this.unlistener();
     }
   }
