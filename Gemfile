@@ -13,7 +13,7 @@ gem "sqlite3", "~> 2.0"
 gem "graphql", "~> 2.0"
 
 # Scalable WebSockets
-gem "anycable-rails", "1.6.0.rc.2"
+gem "anycable-rails", "~> 1.6"
 
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"

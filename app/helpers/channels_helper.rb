@@ -14,7 +14,7 @@ module ChannelsHelper
           content_tag(:span, "@#{u.username}") +
             content_tag(:i, "online", class: "ml-1 online-indicator font-normal text-sm not-italic text-teal-400", data: {online_target: :user, id: u.id})
         end
-      end.join(", ").html_safe # rubocop:disable Rails/OutputSafety do not do this in production!
+      end.join(", ").html_safe # rubocop:disable Rails/OutputSafety
     end
   end
 end
