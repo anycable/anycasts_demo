@@ -5,17 +5,17 @@ module ApplicationCable
     def connect
       token = request.params[:jid]
 
-      identifiers = AnyCable::Rails::JWT.decode(token)
+      identifiers = AnyCable::JWT.decode(token)
       identifiers.each do |k, v|
         public_send("#{k}=", v)
       end
-    rescue JWT::DecodeError
+    rescue AnyCable::JWT::DecodeError
       reject_unauthorized_connection
     end
 
     def handle_open
       super
-    rescue JWT::ExpiredSignature
+    rescue AnyCable::JWT::ExpiredSignature
       logger.error "An expired JWT token was rejected"
       close(reason: "token_expired", reconnect: false) if websocket.alive?
     end

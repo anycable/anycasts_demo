@@ -3,6 +3,7 @@
 require Rails.root.join("lib", "graphql_playground", "rack")
 
 Rails.application.routes.draw do
+  get "/up", to: "healths#index"
   get "/login" => "sessions#new", :as => :login
   post "/login" => "sessions#create"
   delete "/logout" => "sessions#destroy", :as => :logout

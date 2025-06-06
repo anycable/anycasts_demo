@@ -38,3 +38,5 @@ spec/examples.txt
 .vscode/
 
 /k6
+.kamal/secrets
+.env
