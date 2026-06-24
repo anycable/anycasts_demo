@@ -1,0 +1,136 @@
+# https://kamal-deploy.org/docs/upgrading/secrets-changes/
+<% require "dotenv"; Dotenv.load(".env", overwrite: true) %>
+
+service: anycast
+image: <%= ENV.fetch("KAMAL_REGISTRY_USERNAME") %>/anycast_demo
+
+env:
+  clear: &default_env
+    RAILS_ENV: production
+    RAILS_SERVE_STATIC_FILES: "true"
+    RAILS_LOG_TO_STDOUT: "1"
+    DATABASE_URL: "sqlite3:///data/db.sqlite3"
+
+    # Anycable
+    ACTION_CABLE_ADAPTER: "anycable"
+    ANYCABLE_WEBSOCKET_URL: wss://<%= ENV.fetch("WS_PROXY_HOST") %>/cable
+    ANYCABLE_BROADCAST_ADAPTER: nats
+  secret:
+    - RAILS_MASTER_KEY
+    - ANYCABLE_SECRET
+
+servers:
+  web:
+    hosts: [<%= ENV.fetch("WEB_HOST") %>]
+    env:
+      clear:
+        <<: *default_env
+        ANYCABLE_NATS_SERVERS: "nats://<%= ENV.fetch("WS_PROXY_HOST") %>:4242"
+    proxy:
+      host: <%= ENV.fetch("PROXY_HOST") %>
+      ssl: true
+      app_port: 3000
+      healthcheck:
+        path: /up
+        interval: 1
+        timeout: 5
+
+  rpc:
+    hosts: [<%= ENV.fetch("WEB_HOST") %>]
+    cmd: bundle exec anycable
+    env:
+      clear:
+        <<: *default_env
+        ANYCABLE_RPC_HOST: "0.0.0.0:50051"
+        ANYCABLE_DEBUG: <%= ENV.fetch("ANYCABLE_DEBUG", "1") %>
+        ANYCABLE_NATS_SERVERS: "nats://<%= ENV.fetch("WS_PROXY_HOST") %>:4242"
+      secret:
+        - RAILS_MASTER_KEY
+        - ANYCABLE_SECRET
+    options:
+      publish:
+        - "50051:50051"
+    proxy: false
+
+registry:
+  server: <%= ENV.fetch("KAMAL_REGISTRY_SERVER") %>
+  username: <%= ENV.fetch("KAMAL_REGISTRY_USERNAME") %>
+  password: [KAMAL_REGISTRY_PASSWORD]
+
+builder:
+  context: .
+  dockerfile: .fly/Dockerfile
+  arch: amd64
+  secrets: [RAILS_MASTER_KEY]
+
+accessories:
+  websocket-cluster:
+    host: <%= ENV.fetch("WS_NATS_CLUSTER_HOST") %>
+    image: anycable/anycable-go:1.6.2-alpine
+    env:
+      clear:
+        <<: *default_env
+        ANYCABLE_HOST: "0.0.0.0"
+        ANYCABLE_PORT: "8080"
+        ANYCABLE_BROKER: "memory"
+        ANYCABLE_DEBUG: "1"
+        ANYCABLE_EMBED_NATS: "true"
+        ANYCABLE_PUBSUB: nats
+        ANYCABLE_BROADCAST_ADAPTER: "nats"
+        ANYCABLE_RPC_HOST: "<%= ENV.fetch("WEB_HOST") %>:50051"
+        ANYCABLE_ALLOWED_ORIGINS: "<%= ENV.fetch("WS_ALLOWED_ORIGINS") %>"
+        ANYCABLE_HEADERS: "jid"
+        ANYCABLE_ENATS_ADDR: "nats://0.0.0.0:4242"
+        ANYCABLE_ENATS_CLUSTER: "nats://0.0.0.0:4243"
+      secret:
+        - RAILS_MASTER_KEY
+        - ANYCABLE_SECRET
+    options:
+      publish:
+        - "4242:4242"
+        - "4243:4243"
+    proxy:
+      host: <%= ENV.fetch("WS_PROXY_HOST") %>
+      ssl: true
+      app_port: 8080
+      healthcheck:
+        path: /health
+        interval: 1
+        timeout: 5
+  websocket:
+    host: <%= ENV.fetch("WS_NATS_HOST") %>
+    image: anycable/anycable-go:1.6.2-alpine
+    env:
+      clear:
+        <<: *default_env
+        ANYCABLE_HOST: "0.0.0.0"
+        ANYCABLE_PORT: "8081"
+        ANYCABLE_BROKER: "memory"
+        ANYCABLE_DEBUG: "1"
+        ANYCABLE_EMBED_NATS: "true"
+        ANYCABLE_PUBSUB: nats
+        ANYCABLE_BROADCAST_ADAPTER: "nats"
+        ANYCABLE_RPC_HOST: "<%= ENV.fetch("WEB_HOST") %>:50051"
+        ANYCABLE_ALLOWED_ORIGINS: "<%= ENV.fetch("WS_ALLOWED_ORIGINS") %>"
+        ANYCABLE_HEADERS: "jid"
+        ANYCABLE_ENATS_ADDR: "nats://0.0.0.0:4322"
+        ANYCABLE_ENATS_CLUSTER: "nats://0.0.0.0:4323"
+        ANYCABLE_ENATS_CLUSTER_ROUTES: "nats://<%= ENV.fetch("WS_NATS_CLUSTER_HOST") %>:4243"
+      secret:
+        - RAILS_MASTER_KEY
+        - ANYCABLE_SECRET
+    options:
+      publish:
+        - "4322:4322"
+        - "4323:4323"
+
+volumes:
+  - app_storage:/app/storage
+  - data:/data
+
+asset_path: /rails/public/assets
+
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
